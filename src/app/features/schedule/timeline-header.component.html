@@ -1,0 +1,36 @@
+<header class="timeline-header">
+  <div class="timeline-header__top">
+    <div class="timeline-header__title">Work Orders</div>
+
+    <div class="timeline-header__controls">
+      <span class="timeline-header__label">Timescale:</span>
+      <ng-select
+        class="timeline-header__timescale-select"
+        [items]="zoomOptions"
+        bindLabel="label"
+        bindValue="value"
+        [clearable]="false"
+        [searchable]="false"
+        [ngModel]="zoom"
+        (ngModelChange)="onZoomSelect($event)"
+      >
+      </ng-select>
+    </div>
+  </div>
+
+  <!-- Time header row (right side corresponds to scrollable grid) -->
+  <div class="timeline-header__time-row">
+    <div class="timeline-header__time-spacer">
+      Work Center
+    </div>
+    <div class="timeline-header__time-track">
+      <div
+        *ngFor="let cell of headerCells"
+        class="timeline-header__time-cell"
+        [style.width.px]="getCellWidthPx(cell)"
+      >
+        {{ cell.label }}
+      </div>
+    </div>
+  </div>
+</header>

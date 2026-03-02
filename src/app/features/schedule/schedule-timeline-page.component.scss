@@ -1,44 +1,61 @@
+@use '../../../styles/tokens' as *;
+
 .schedule-page {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.schedule-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: $space-4;
-}
-
-.schedule-header__title {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
-}
-
-.schedule-header__controls {
-  display: flex;
-  align-items: center;
+.schedule-main {
+  display: grid;
+  grid-template-columns: auto 1fr;
   gap: $space-2;
-}
-
-.schedule-header__label {
-  font-size: $font-size-sm;
-  color: $color-text-secondary;
-}
-
-.schedule-content {
   flex: 1;
-  display: flex;
   min-height: 0;
+}
+
+/* Left column: fixed width, vertical scroll only if needed */
+.schedule-main__left {
+  display: flex;
+  flex-direction: column;
   background-color: $color-surface;
   border-radius: 8px;
-  padding: $space-4;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
 }
 
-.schedule-placeholder {
-  margin: auto;
+.schedule-main__left-header {
+  padding: $space-3 $space-4;
+  border-bottom: 1px solid $color-border-subtle;
   font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
   color: $color-text-secondary;
+}
+
+.schedule-main__left-list {
+  overflow-y: auto;
+}
+
+.schedule-main__left-item {
+  padding: $space-3 $space-4;
+  border-bottom: 1px solid $color-timeline-grid-line;
+  font-size: $font-size-sm;
+}
+
+/* Right column: contains horizontally scrollable timeline grid */
+.schedule-main__right {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-surface;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+/* Only this inner div scrolls horizontally, so left column stays fixed */
+.schedule-main__right-scroll {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: auto;
+  /* Later, you can tune scrollbars */
 }

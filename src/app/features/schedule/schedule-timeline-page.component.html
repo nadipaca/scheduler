@@ -1,24 +1,42 @@
 <div class="app-shell schedule-page">
-  <header class="schedule-header">
-    <div class="schedule-header__title">Work Orders</div>
+  <!-- Top header: title + timescale + time header row -->
+  <app-timeline-header
+    [zoom]="zoom"
+    [visibleRange]="visibleRange"
+    (zoomChange)="onZoomChange($event)"
+  ></app-timeline-header>
 
-    <div class="schedule-header__controls">
-      <span class="schedule-header__label">Timescale:</span>
-      <ng-select
-        class="schedule-header__timescale-select"
-        [items]="zoomOptions"
-        bindLabel="label"
-        bindValue="value"
-        [(ngModel)]="selectedZoom"
-      >
-      </ng-select>
-    </div>
-  </header>
+  <!-- Main area: left fixed column + right scrollable timeline -->
+  <div class="schedule-main">
+    <!-- Left: fixed work center list -->
+    <div
+      class="schedule-main__left"
+      [style.width.px]="leftColumnWidth"
+    >
+      <div class="schedule-main__left-header">
+        Work Center
+      </div>
 
-  <section class="schedule-content">
-    <!-- Timeline grid and slide-out panel will be added here -->
-    <div class="schedule-placeholder">
-      Timeline grid will be rendered here (Day/Week/Month).
+      <div class="schedule-main__left-list" *ngIf="(workCenters$ | async) as centers">
+        <div
+          *ngFor="let wc of centers"
+          class="schedule-main__left-item"
+        >
+          {{ wc.data.name }}
+        </div>
+      </div>
     </div>
-  </section>
+
+    <!-- Right: horizontally scrollable grid -->
+    <div class="schedule-main__right">
+      <div class="schedule-main__right-scroll">
+        <app-timeline-grid
+          [zoom]="zoom"
+          [visibleRange]="visibleRange"
+          [workCenters]="(workCenters$ | async) ?? []"
+          [workOrders]="(workOrders$ | async) ?? []"
+        ></app-timeline-grid>
+      </div>
+    </div>
+  </div>
 </div>

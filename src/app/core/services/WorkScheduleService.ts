@@ -27,6 +27,10 @@ export class WorkScheduleService {
   private readonly workCentersSubject = new BehaviorSubject<WorkCenterDocument[]>([]);
   private readonly workOrdersSubject = new BehaviorSubject<WorkOrderDocument[]>([]);
 
+   /**
+   * Central overlap detection: ensures a candidate order does not overlap
+   * with any existing orders on the same work center (except ignoreDocId).
+   */
   private findOverlapError(
   workCenterId: string,
   startDateIso: string,
@@ -192,57 +196,5 @@ export class WorkScheduleService {
   private generateDocId(): string {
     // Simple unique-ish ID; in a real system this would come from backend/UUID.
     return `wo-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-  }
-
-  /**
-   * Central overlap detection: ensures a candidate order does not overlap
-   * with any existing orders on the same work center (except ignoreDocId).
-   */
-  private findOverlapError(
-    workCenterId: string,
-    startDateIso: string,
-    endDateIso: string,
-    allOrders: WorkOrderDocument[],
-    ignoreDocId: string | null,
-  ): string | null {
-    const start = new Date(startDateIso);
-    const end = new Date(endDateIso);
-
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-      return 'Invalid start or end date.';
-    }
-
-    if (end < start) {
-      return 'End date must be after start date.';
-    }
-
-    const sameCenterOrders = allOrders.filter(
-      (wo) =>
-        wo.data.workCenterId === workCenterId &&
-        (!ignoreDocId || wo.docId !== ignoreDocId),
-    );
-
-    const hasOverlap = sameCenterOrders.some((wo) => {
-      const existingStart = new Date(wo.data.startDate);
-      const existingEnd = new Date(wo.data.endDate);
-      return this.intervalsOverlap(existingStart, existingEnd, start, end);
-    });
-
-    return hasOverlap
-      ? 'This work order overlaps with an existing order on this work center.'
-      : null;
-  }
-
-  /**
-   * Inclusive date range overlap:
-   * [aStart, aEnd] overlaps [bStart, bEnd] unless aEnd < bStart or bEnd < aStart.
-   */
-  private intervalsOverlap(
-    aStart: Date,
-    aEnd: Date,
-    bStart: Date,
-    bEnd: Date,
-  ): boolean {
-    return !(aEnd < bStart || bEnd < aStart);
   }
 }

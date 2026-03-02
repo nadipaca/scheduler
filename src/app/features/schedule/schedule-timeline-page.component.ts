@@ -1,25 +1,36 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
 
-import { TimelineZoom } from '../../shared/utils/timeline-zoom.config';
+import { WorkScheduleService } from '../../core/services/WorkScheduleService';
+import { TimelineHeaderComponent } from './timeline-header.component';
+import { TimelineGridComponent } from './timeline-grid.component';
+import { TimelineZoom, TIMELINE_ZOOM_CONFIG } from '../../shared/utils/timeline-zoom.config';
+import {
+  TimelineRange,
+  getInitialVisibleRange,
+} from '../../shared/utils/date-range.util';
 
 @Component({
   standalone: true,
   selector: 'app-schedule-timeline-page',
-  imports: [CommonModule, FormsModule, NgSelectModule],
+  imports: [CommonModule, TimelineHeaderComponent, TimelineGridComponent],
   templateUrl: './schedule-timeline-page.component.html',
   styleUrls: ['./schedule-timeline-page.component.scss'],
 })
 export class ScheduleTimelinePageComponent {
-  zoomOptions: { label: string; value: TimelineZoom }[] = [
-    { label: 'Day', value: 'day' },
-    { label: 'Week', value: 'week' },
-    { label: 'Month', value: 'month' },
-  ];
+  readonly workCenters$ = this.workScheduleService.workCenters$;
+  readonly workOrders$ = this.workScheduleService.workOrders$;
 
-  selectedZoom: TimelineZoom = 'day';
+  zoom: TimelineZoom = 'day';
+  visibleRange: TimelineRange = getInitialVisibleRange(this.zoom);
 
-  // Later: pass selectedZoom down to timeline grid component as @Input()
+  readonly leftColumnWidth = 220; // px, keep in sync with CSS
+
+  constructor(private readonly workScheduleService: WorkScheduleService) {}
+
+  onZoomChange(zoom: TimelineZoom): void {
+    if (this.zoom === zoom) return;
+    this.zoom = zoom;
+    this.visibleRange = getInitialVisibleRange(zoom);
+  }
 }

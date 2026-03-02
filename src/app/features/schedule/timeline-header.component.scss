@@ -1,0 +1,56 @@
+@use '../../../styles/tokens' as *;
+
+.timeline-header {
+  margin-bottom: $space-3;
+}
+
+.timeline-header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-3;
+}
+
+.timeline-header__title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+}
+
+.timeline-header__controls {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.timeline-header__label {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+/* Time row: left spacer + right track */
+.timeline-header__time-row {
+  display: grid;
+  grid-template-columns: 220px 1fr; // keep 220px in sync with leftColumnWidth
+  column-gap: $space-2;
+}
+
+.timeline-header__time-spacer {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  padding: 0 $space-4;
+}
+
+.timeline-header__time-track {
+  display: flex;
+  overflow: hidden; // horizontal scroll is in grid container, not here
+  border-bottom: 1px solid $color-border-subtle;
+}
+
+.timeline-header__time-cell {
+  flex: 0 0 auto;
+  text-align: center;
+  padding: $space-2 0;
+  border-right: 1px solid $color-timeline-grid-line;
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+}

@@ -1,0 +1,14 @@
+<div class="timeline-grid">
+  <!-- Each row corresponds to a work center -->
+  <div
+    *ngFor="let wc of workCenters; let i = index"
+    class="timeline-grid__row"
+    [class.timeline-grid__row--even]="i % 2 === 0"
+  >
+    <!-- The left column labels are already rendered in the page; this is only the timeline area -->
+    <div class="timeline-grid__cells">
+      <!-- Placeholder: later, work order bars will be positioned here -->
+      <div class="timeline-grid__row-background"></div>
+    </div>
+  </div>
+</div>
