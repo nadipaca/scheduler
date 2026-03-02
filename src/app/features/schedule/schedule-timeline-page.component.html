@@ -1,0 +1,24 @@
+<div class="app-shell schedule-page">
+  <header class="schedule-header">
+    <div class="schedule-header__title">Work Orders</div>
+
+    <div class="schedule-header__controls">
+      <span class="schedule-header__label">Timescale:</span>
+      <ng-select
+        class="schedule-header__timescale-select"
+        [items]="zoomOptions"
+        bindLabel="label"
+        bindValue="value"
+        [(ngModel)]="selectedZoom"
+      >
+      </ng-select>
+    </div>
+  </header>
+
+  <section class="schedule-content">
+    <!-- Timeline grid and slide-out panel will be added here -->
+    <div class="schedule-placeholder">
+      Timeline grid will be rendered here (Day/Week/Month).
+    </div>
+  </section>
+</div>
