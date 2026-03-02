@@ -7,41 +7,73 @@ import {
 import { CommonModule } from '@angular/common';
 
 import { WorkScheduleService } from '../../core/services/WorkScheduleService';
-import { TimelineHeaderComponent } from './timeline-header.component';
-import { TimelineGridComponent } from './timeline-grid.component';
-import { TimelineZoom, TIMELINE_ZOOM_CONFIG } from '../../shared/utils/timeline-zoom.config';
+import { WorkCenterDocument } from '../../core/models/work-center.model';
+import {
+  WorkOrderData,
+  WorkOrderDocument,
+} from '../../core/models/work-order.model';
+import {
+  TimelineZoom,
+  TIMELINE_ZOOM_CONFIG,
+} from '../../shared/utils/timeline-zoom.config';
 import {
   TimelineRange,
   getInitialVisibleRange,
   getToday,
   dateToX,
 } from '../../shared/utils/date-range.util';
-import { WorkCenterDocument } from '../../core/models/work-center.model';
-import { WorkOrderDocument } from '../../core/models/work-order.model';
+
+import { TimelineHeaderComponent } from './timeline-header.component';
+import { TimelineGridComponent } from './timeline-grid.component';
+import { WorkOrderPanelComponent } from './work-order-panel.component';
 
 @Component({
   standalone: true,
   selector: 'app-schedule-timeline-page',
-  imports: [CommonModule, TimelineHeaderComponent, TimelineGridComponent],
+  imports: [
+    CommonModule,
+    TimelineHeaderComponent,
+    TimelineGridComponent,
+    WorkOrderPanelComponent,
+  ],
   templateUrl: './schedule-timeline-page.component.html',
   styleUrls: ['./schedule-timeline-page.component.scss'],
 })
-export class ScheduleTimelinePageComponent {
+export class ScheduleTimelinePageComponent implements AfterViewInit {
   readonly workCenters$ = this.workScheduleService.workCenters$;
   readonly workOrders$ = this.workScheduleService.workOrders$;
 
-  zoom: TimelineZoom = 'day';
+  zoom: TimelineZoom = 'month';
   visibleRange: TimelineRange = getInitialVisibleRange(this.zoom);
+
+  readonly leftColumnWidth = 240;
+
+  // slide‑out panel state
+  panelOpen = false;
+  panelMode: 'create' | 'edit' = 'create';
+  selectedWorkCenter: WorkCenterDocument | null = null;
+  selectedWorkOrder: WorkOrderDocument | null = null;
+  suggestedStartDate: Date | null = null;
+  ordersForSelectedCenter: WorkOrderDocument[] = [];
+
+  // Keep latest work orders in memory so we can derive per‑center lists quickly
+  private workOrdersSnapshot: WorkOrderDocument[] = [];
+  private workCentersSnapshot: WorkCenterDocument[] = [];
+
+  constructor(private readonly workScheduleService: WorkScheduleService) {
+    this.workOrders$.subscribe((orders) => {
+      this.workOrdersSnapshot = orders;
+    });
+
+    this.workCenters$.subscribe((centers) => {
+      this.workCentersSnapshot = centers;
+    });
+  }
 
   @ViewChild('timelineScroll', { static: false })
   private timelineScrollRef?: ElementRef<HTMLDivElement>;
 
-  readonly leftColumnWidth = 220; // px, keep in sync with CSS
-
-  constructor(private readonly workScheduleService: WorkScheduleService) {}
-
   ngAfterViewInit(): void {
-    // Delay to let child components render and sizes settle
     setTimeout(() => this.centerOnToday(), 0);
   }
 
@@ -49,7 +81,6 @@ export class ScheduleTimelinePageComponent {
     if (this.zoom === zoom) return;
     this.zoom = zoom;
     this.visibleRange = getInitialVisibleRange(zoom);
-    // Optionally re-center on today when zoom changes:
     setTimeout(() => this.centerOnToday(), 0);
   }
 
@@ -59,27 +90,81 @@ export class ScheduleTimelinePageComponent {
 
     const today = getToday();
     const todayX = dateToX(today, this.visibleRange, this.zoom);
-
     const target = Math.max(todayX - el.clientWidth / 2, 0);
     el.scrollLeft = target;
   }
 
-  // Stubs for future panel wiring
+  // ----- Events from grid / rows / bars -----
+
   onCreateRequested(payload: {
     workCenter: WorkCenterDocument;
     suggestedDate: Date;
   }): void {
-    // TODO: open create panel with prefilled start date
-    console.log('Create requested', payload);
+    this.panelMode = 'create';
+    this.selectedWorkCenter = payload.workCenter;
+    this.selectedWorkOrder = null;
+    this.suggestedStartDate = payload.suggestedDate;
+
+    this.ordersForSelectedCenter = this.workOrdersSnapshot.filter(
+      (wo) => wo.data.workCenterId === payload.workCenter.docId,
+    );
+
+    this.panelOpen = true;
   }
 
   onEditRequested(workOrder: WorkOrderDocument): void {
-    // TODO: open edit panel
-    console.log('Edit requested', workOrder);
+    const center = this.findCenterById(workOrder.data.workCenterId);
+
+    this.panelMode = 'edit';
+    this.selectedWorkCenter = center ?? null;
+    this.selectedWorkOrder = workOrder;
+    this.suggestedStartDate = null;
+
+    this.ordersForSelectedCenter = this.workOrdersSnapshot.filter(
+      (wo) => wo.data.workCenterId === workOrder.data.workCenterId,
+    );
+
+    this.panelOpen = true;
   }
 
   onDeleteRequested(workOrder: WorkOrderDocument): void {
-    // TODO: confirm + delete
-    console.log('Delete requested', workOrder);
+    const confirmed = window.confirm(
+      `Delete work order "${workOrder.data.name}"?`,
+    );
+    if (!confirmed) return;
+
+    // Adjust to your real service API
+    this.workScheduleService.deleteWorkOrder(workOrder.docId);
+    // Streams will emit new values; grid updates automatically.
+  }
+
+  private findCenterById(id: string): WorkCenterDocument | undefined {
+    return this.workCentersSnapshot.find(
+      (c: WorkCenterDocument) => c.docId === id,
+    );
+  }
+
+  // ----- Events from panel -----
+
+  onPanelClosed(): void {
+    this.panelOpen = false;
+  }
+
+  onPanelSubmit(event: {
+    mode: 'create' | 'edit';
+    workOrderId?: string;
+    data: WorkOrderData;
+  }): void {
+    if (!this.selectedWorkCenter) return;
+
+    if (event.mode === 'create') {
+      this.workScheduleService.createWorkOrder(event.data);
+    } else if (event.mode === 'edit' && event.workOrderId) {
+      this.workScheduleService.updateWorkOrder(event.workOrderId, event.data);
+    }
+
+    // Because we’re using streams from the service, the timeline
+    // will update automatically when those streams emit.
+    this.panelOpen = false;
   }
 }

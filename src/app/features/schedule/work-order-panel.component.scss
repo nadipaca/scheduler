@@ -1,0 +1,105 @@
+@use '../../../styles/tokens' as *;
+
+.wo-panel-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.08);
+  display: flex;
+  justify-content: flex-end;
+  z-index: $z-panel-backdrop;
+}
+
+.wo-panel {
+  position: relative;
+  width: 360px;
+  max-width: 100%;
+  background-color: $color-surface;
+  box-shadow: -16px 0 40px rgba(15, 23, 42, 0.25);
+  padding: $space-5 $space-6;
+  display: flex;
+  flex-direction: column;
+  z-index: $z-panel;
+}
+
+.wo-panel__header {
+  margin-bottom: $space-5;
+}
+
+.wo-panel__title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+}
+
+.wo-panel__subtitle {
+  margin-top: $space-1;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.wo-panel__form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.wo-panel__section {
+  display: flex;
+  flex-direction: column;
+}
+
+.wo-panel__label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-text-secondary;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.wo-panel__input {
+  height: 34px;
+  padding: 0 $space-3;
+  border-radius: 6px;
+  border: 1px solid $color-border-subtle;
+  font-size: $font-size-sm;
+}
+
+.wo-panel__select ::ng-deep .ng-select-container {
+  min-height: 34px;
+}
+
+.wo-panel__row {
+  display: flex;
+  gap: $space-3;
+}
+
+.wo-panel__error {
+  font-size: $font-size-xs;
+  color: #dc2626;
+}
+
+.wo-panel__footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-3;
+}
+
+.wo-panel__btn {
+  min-width: 84px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: $font-size-sm;
+  cursor: pointer;
+}
+
+.wo-panel__btn--ghost {
+  background-color: transparent;
+  border-color: $color-border-subtle;
+}
+
+.wo-panel__btn--primary {
+  background: linear-gradient(90deg, #4f46e5, #818cf8);
+  color: #ffffff;
+}

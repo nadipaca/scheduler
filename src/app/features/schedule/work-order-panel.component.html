@@ -1,0 +1,136 @@
+<div
+  class="wo-panel-backdrop"
+  *ngIf="open"
+  (click)="onBackdropClick()"
+>
+  <aside
+    class="wo-panel"
+    (click)="$event.stopPropagation()"
+  >
+    <header class="wo-panel__header">
+      <div class="wo-panel__title">
+        Work Order Details
+      </div>
+      <div class="wo-panel__subtitle">
+        Specify the dates, name and status for this order
+      </div>
+    </header>
+
+    <form
+      class="wo-panel__form"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="wo-panel__section">
+        <label class="wo-panel__label">
+          Work Order Name
+          <input
+            type="text"
+            class="wo-panel__input"
+            formControlName="name"
+          />
+        </label>
+        <div
+          class="wo-panel__error"
+          *ngIf="
+            form.get('name')?.touched &&
+            form.get('name')?.hasError('required')
+          "
+        >
+          Name is required.
+        </div>
+      </div>
+
+      <div class="wo-panel__section">
+        <label class="wo-panel__label">
+          Status
+          <ng-select
+            class="wo-panel__select"
+            formControlName="status"
+            [items]="statusOptions"
+            bindLabel="label"
+            bindValue="value"
+            [clearable]="false"
+            [searchable]="false"
+          >
+          </ng-select>
+        </label>
+        <div
+          class="wo-panel__error"
+          *ngIf="
+            form.get('status')?.touched &&
+            form.get('status')?.hasError('required')
+          "
+        >
+          Status is required.
+        </div>
+      </div>
+
+      <div class="wo-panel__row">
+        <div class="wo-panel__section">
+          <label class="wo-panel__label">
+            Start date
+            <div class="wo-panel__datepicker-wrapper">
+              <input
+                class="wo-panel__input"
+                ngbDatepicker
+                #dpStart="ngbDatepicker"
+                formControlName="startDate"
+                readonly
+                (click)="dpStart.open()"
+              />
+            </div>
+          </label>
+        </div>
+
+        <div class="wo-panel__section">
+          <label class="wo-panel__label">
+            End date
+            <div class="wo-panel__datepicker-wrapper">
+              <input
+                class="wo-panel__input"
+                ngbDatepicker
+                #dpEnd="ngbDatepicker"
+                formControlName="endDate"
+                readonly
+                (click)="dpEnd.open()"
+              />
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div
+        class="wo-panel__error"
+        *ngIf="dateRangeInvalid"
+      >
+        End date must be after start date.
+      </div>
+
+      <div
+        class="wo-panel__error"
+        *ngIf="overlapError"
+      >
+        {{ overlapError }}
+      </div>
+
+      <div class="wo-panel__footer">
+        <button
+          type="button"
+          class="wo-panel__btn wo-panel__btn--ghost"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="wo-panel__btn wo-panel__btn--primary"
+          [disabled]="saving"
+        >
+          {{ mode === 'create' ? 'Create' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  </aside>
+</div>

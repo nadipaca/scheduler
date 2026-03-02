@@ -1,8 +1,10 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -32,14 +34,16 @@ export class WorkCenterRowComponent {
     workCenter: WorkCenterDocument;
     suggestedDate: Date;
   }>();
-
   @Output() editRequested = new EventEmitter<WorkOrderDocument>();
   @Output() deleteRequested = new EventEmitter<WorkOrderDocument>();
 
-  onLaneClick(event: MouseEvent): void {
-    const target = event.currentTarget as HTMLElement;
-    const rect = target.getBoundingClientRect();
-    const x = event.clientX - rect.left; // px from left edge of row
+  @ViewChild('lane', { static: true })
+  private laneRef!: ElementRef<HTMLDivElement>;
+
+  onRowClick(event: MouseEvent): void {
+    // Bars call stopPropagation, so this only runs for empty-lane clicks
+    const rect = this.laneRef.nativeElement.getBoundingClientRect();
+    const x = event.clientX - rect.left;
     const suggestedDate = xToDate(x, this.visibleRange, this.zoom);
 
     this.createRequested.emit({
@@ -57,7 +61,7 @@ export class WorkCenterRowComponent {
   }
 
   onBarClick(event: MouseEvent): void {
-    // Prevent row click when bar is clicked
+    // prevent row click when bar is clicked
     event.stopPropagation();
   }
 }

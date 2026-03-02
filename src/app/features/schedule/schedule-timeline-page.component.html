@@ -1,23 +1,20 @@
 <div class="app-shell schedule-page">
-  <!-- Top header: title + timescale + time header row -->
   <app-timeline-header
     [zoom]="zoom"
     [visibleRange]="visibleRange"
     (zoomChange)="onZoomChange($event)"
   ></app-timeline-header>
 
-  <!-- Main area: left fixed column + right scrollable timeline -->
   <div class="schedule-main">
-    <!-- Left: fixed work center list -->
     <div
       class="schedule-main__left"
       [style.width.px]="leftColumnWidth"
     >
-      <div class="schedule-main__left-header">
-        Work Center
-      </div>
-
-      <div class="schedule-main__left-list" *ngIf="(workCenters$ | async) as centers">
+      <div class="schedule-main__left-header">Work Center</div>
+      <div
+        class="schedule-main__left-list"
+        *ngIf="(workCenters$ | async) as centers"
+      >
         <div
           *ngFor="let wc of centers"
           class="schedule-main__left-item"
@@ -27,7 +24,6 @@
       </div>
     </div>
 
-    <!-- Right: horizontally scrollable grid -->
     <div class="schedule-main__right">
       <div
         #timelineScroll
@@ -45,4 +41,16 @@
       </div>
     </div>
   </div>
+
+  <app-work-order-panel
+    *ngIf="panelOpen && selectedWorkCenter"
+    [open]="panelOpen"
+    [mode]="panelMode"
+    [workCenter]="selectedWorkCenter!"
+    [workOrder]="selectedWorkOrder"
+    [suggestedStartDate]="suggestedStartDate"
+    [allOrders]="ordersForSelectedCenter"
+    (closed)="onPanelClosed()"
+    (submitOrder)="onPanelSubmit($event)"
+  ></app-work-order-panel>
 </div>
