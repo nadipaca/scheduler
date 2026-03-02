@@ -1,0 +1,41 @@
+// Colors
+$color-bg-page: #f5f6fa;
+$color-surface: #ffffff;
+$color-border-subtle: #d4d7e0;
+
+$color-text-primary: #1d2130;
+$color-text-secondary: #6b7280;
+
+$color-status-open: #2b6fff;
+$color-status-in-progress: #6b4bff;
+$color-status-complete: #1bbf72;
+$color-status-blocked: #ff9f2b;
+
+$color-timeline-grid-line: #e2e5f0;
+$color-timeline-row-hover: #f0f4ff;
+
+// Spacing scale
+$space-0: 0;
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+$space-6: 24px;
+$space-7: 32px;
+
+// Typography
+$font-size-xs: 11px;
+$font-size-sm: 13px;
+$font-size-md: 14px;
+$font-size-lg: 16px;
+
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+
+// Z-index
+$z-header: 100;
+$z-panel: 300;
+$z-panel-backdrop: 290;
+$z-tooltip: 400;

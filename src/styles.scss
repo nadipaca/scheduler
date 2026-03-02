@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'styles/ng-select';
+@import 'styles/tokens';
+
+// Global resets
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Circular-Std", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  color: $color-text-primary;
+  background-color: $color-bg-page;
+}
+
+app-root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: $space-5;
+  overflow: hidden; // timeline can manage its own scroll areas
+}
