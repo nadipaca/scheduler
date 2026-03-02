@@ -9,7 +9,10 @@ import { CommonModule } from '@angular/common';
 import { WorkCenterDocument } from '../../core/models/work-center.model';
 import { WorkOrderDocument } from '../../core/models/work-order.model';
 import { TimelineZoom } from '../../shared/utils/timeline-zoom.config';
-import { TimelineRange } from '../../shared/utils/date-range.util';
+import {
+  TimelineRange,
+  xToDate,
+} from '../../shared/utils/date-range.util';
 import { WorkOrderBarComponent } from './work-order-bar.component';
 
 @Component({
@@ -27,16 +30,21 @@ export class WorkCenterRowComponent {
 
   @Output() createRequested = new EventEmitter<{
     workCenter: WorkCenterDocument;
-    event: MouseEvent;
+    suggestedDate: Date;
   }>();
 
   @Output() editRequested = new EventEmitter<WorkOrderDocument>();
   @Output() deleteRequested = new EventEmitter<WorkOrderDocument>();
 
-  onRowClick(event: MouseEvent): void {
+  onLaneClick(event: MouseEvent): void {
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const x = event.clientX - rect.left; // px from left edge of row
+    const suggestedDate = xToDate(x, this.visibleRange, this.zoom);
+
     this.createRequested.emit({
       workCenter: this.workCenter,
-      event,
+      suggestedDate,
     });
   }
 
@@ -49,6 +57,7 @@ export class WorkCenterRowComponent {
   }
 
   onBarClick(event: MouseEvent): void {
+    // Prevent row click when bar is clicked
     event.stopPropagation();
   }
 }

@@ -29,12 +29,18 @@
 
     <!-- Right: horizontally scrollable grid -->
     <div class="schedule-main__right">
-      <div class="schedule-main__right-scroll">
+      <div
+        #timelineScroll
+        class="schedule-main__right-scroll"
+      >
         <app-timeline-grid
           [zoom]="zoom"
           [visibleRange]="visibleRange"
           [workCenters]="(workCenters$ | async) ?? []"
           [workOrders]="(workOrders$ | async) ?? []"
+          (createRequested)="onCreateRequested($event)"
+          (editRequested)="onEditRequested($event)"
+          (deleteRequested)="onDeleteRequested($event)"
         ></app-timeline-grid>
       </div>
     </div>

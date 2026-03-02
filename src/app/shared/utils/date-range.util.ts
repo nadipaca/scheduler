@@ -152,3 +152,22 @@ export function intervalToBarLayout(
 
   return { x, width };
 }
+
+/**
+ * Map a horizontal offset (in px) back to a date, given the visible range
+ * and zoom configuration.
+ */
+export function xToDate(
+  xPx: number,
+  range: TimelineRange,
+  zoom: TimelineZoom,
+): Date {
+  const cfg = TIMELINE_ZOOM_CONFIG[zoom];
+  const daysFromStart = xPx / cfg.pixelsPerDay;
+  return addDays(range.start, Math.floor(daysFromStart));
+}
+
+/** Get today's x position in the current range (can be negative / > width). */
+export function todayToX(range: TimelineRange, zoom: TimelineZoom): number {
+  return dateToX(getToday(), range, zoom);
+}

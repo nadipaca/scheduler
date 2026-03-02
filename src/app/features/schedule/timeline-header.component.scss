@@ -23,27 +23,27 @@
 }
 
 .timeline-header__label {
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   color: $color-text-secondary;
 }
 
-/* Time row: left spacer + right track */
+/* Month header row */
 .timeline-header__time-row {
   display: grid;
-  grid-template-columns: 220px 1fr; // keep 220px in sync with leftColumnWidth
+  grid-template-columns: 240px 1fr;
   column-gap: $space-2;
 }
 
 .timeline-header__time-spacer {
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   color: $color-text-secondary;
   padding: 0 $space-4;
 }
 
 .timeline-header__time-track {
   display: flex;
-  overflow: hidden; // horizontal scroll is in grid container, not here
   border-bottom: 1px solid $color-border-subtle;
+  background-color: $color-surface-soft;
 }
 
 .timeline-header__time-cell {

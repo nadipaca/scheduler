@@ -2,6 +2,13 @@
   class="timeline-grid"
   [style.width.px]="trackWidthPx"
 >
+  <!-- Today vertical indicator -->
+  <div
+    *ngIf="todayX !== null"
+    class="timeline-grid__today-line"
+    [style.left.px]="todayX"
+  ></div>
+
   <app-work-center-row
     *ngFor="let row of rows; let i = index"
     class="timeline-grid__row"

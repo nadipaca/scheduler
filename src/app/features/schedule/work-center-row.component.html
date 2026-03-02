@@ -1,8 +1,8 @@
-<div
-  class="work-center-row"
-  (click)="onRowClick($event)"
->
-  <div class="work-center-row__lane">
+<div class="work-center-row">
+  <div
+    class="work-center-row__lane"
+    (click)="onLaneClick($event)"
+  >
     <app-work-order-bar
       *ngFor="let wo of workOrders"
       [workOrder]="wo"

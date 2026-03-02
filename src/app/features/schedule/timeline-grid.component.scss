@@ -1,16 +1,28 @@
 @use '../../../styles/tokens' as *;
 
 .timeline-grid {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  background-color: $color-surface-soft;
 }
 
 .timeline-grid__row {
   position: relative;
-  height: 40px; // tune to match Sketch
+  height: 44px;
 }
 
 .timeline-grid__row--even {
-  background-color: rgba(15, 23, 42, 0.01);
+  background-color: rgba(99, 102, 241, 0.02);
+}
+
+.timeline-grid__today-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: rgba(129, 140, 248, 0.9);
+  pointer-events: none;
+  z-index: $z-today-line;
 }

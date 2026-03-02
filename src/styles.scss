@@ -1,8 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-@import 'styles/ng-select';
 @import 'styles/tokens';
+@import 'styles/ng-select';
 
-// Global resets
 *,
 *::before,
 *::after {
@@ -16,8 +14,8 @@ body {
 
 body {
   margin: 0;
-  font-family: "Circular-Std", system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+  font-family: 'Circular-Std', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
   color: $color-text-primary;
   background-color: $color-bg-page;
 }
@@ -25,13 +23,33 @@ body {
 app-root {
   min-height: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
 }
 
+/* Center the app content and give it breathing room */
 .app-shell {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: $space-5;
-  overflow: hidden; // timeline can manage its own scroll areas
+  width: 100%;
+  max-width: 1120px;
+  margin: $space-6 auto;
+  padding: $space-6 $space-6 $space-6;
+  background-color: $color-surface;
+  border-radius: 12px;
+  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+}
+
+/* ng-select baseline */
+.ng-select {
+  font-family: inherit;
+  font-size: $font-size-sm;
+
+  .ng-select-container {
+    min-height: 32px;
+    border-radius: 6px;
+    border: 1px solid $color-border-subtle;
+  }
+
+  &.ng-select-opened .ng-select-container {
+    border-color: $color-status-open;
+    box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.12);
+  }
 }

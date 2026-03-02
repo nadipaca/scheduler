@@ -2,19 +2,17 @@
 
 .work-order-bar {
   position: absolute;
-  top: 6px;
+  top: 8px;
   height: 28px;
-  padding: 0 $space-2;
+  padding: 0 $space-3;
   border-radius: 999px;
-  background: linear-gradient(90deg, #2b6fff, #6b4bff);
-  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: $space-2;
   font-size: $font-size-xs;
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.16);
 }
 
 .work-order-bar__content {
@@ -30,12 +28,21 @@
   text-overflow: ellipsis;
 }
 
-.work-order-bar__status {
-  flex-shrink: 0;
+/* Status‑specific backgrounds */
+.work-order-bar--open,
+.work-order-bar--in-progress {
+  background-color: rgba(129, 140, 248, 0.16);
+  color: $color-status-in-progress;
 }
 
-.work-order-bar__menu {
-  flex-shrink: 0;
+.work-order-bar--complete {
+  background-color: rgba(34, 197, 94, 0.14);
+  color: $color-status-complete;
+}
+
+.work-order-bar--blocked {
+  background-color: rgba(245, 158, 11, 0.14);
+  color: $color-status-blocked;
 }
 
 .work-order-bar__menu-toggle {

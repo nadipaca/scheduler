@@ -11,8 +11,15 @@ import { differenceInCalendarDays } from 'date-fns';
 
 import { WorkCenterDocument } from '../../core/models/work-center.model';
 import { WorkOrderDocument } from '../../core/models/work-order.model';
-import { TIMELINE_ZOOM_CONFIG, TimelineZoom } from '../../shared/utils/timeline-zoom.config';
-import { TimelineRange } from '../../shared/utils/date-range.util';
+import {
+  TimelineZoom,
+  TIMELINE_ZOOM_CONFIG,
+} from '../../shared/utils/timeline-zoom.config';
+import {
+  TimelineRange,
+  getToday,
+  todayToX,
+} from '../../shared/utils/date-range.util';
 import { WorkCenterRowComponent } from './work-center-row.component';
 
 interface WorkCenterRowView {
@@ -35,7 +42,7 @@ export class TimelineGridComponent implements OnChanges {
 
   @Output() createRequested = new EventEmitter<{
     workCenter: WorkCenterDocument;
-    event: MouseEvent;
+    suggestedDate: Date;
   }>();
 
   @Output() editRequested = new EventEmitter<WorkOrderDocument>();
@@ -43,10 +50,12 @@ export class TimelineGridComponent implements OnChanges {
 
   rows: WorkCenterRowView[] = [];
   trackWidthPx = 0;
+  todayX: number | null = null;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.rebuildRows();
     this.recalculateTrackWidth();
+    this.recalculateTodayX();
   }
 
   private rebuildRows(): void {
@@ -81,9 +90,24 @@ export class TimelineGridComponent implements OnChanges {
     this.trackWidthPx = totalDays * cfg.pixelsPerDay;
   }
 
+  private recalculateTodayX(): void {
+    if (!this.visibleRange || !this.zoom) {
+      this.todayX = null;
+      return;
+    }
+
+    const today = getToday();
+    if (today < this.visibleRange.start || today > this.visibleRange.end) {
+      this.todayX = null;
+      return;
+    }
+
+    this.todayX = todayToX(this.visibleRange, this.zoom);
+  }
+
   onRowCreateRequested(payload: {
     workCenter: WorkCenterDocument;
-    event: MouseEvent;
+    suggestedDate: Date;
   }): void {
     this.createRequested.emit(payload);
   }

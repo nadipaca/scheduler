@@ -1,20 +1,21 @@
 // Colors
-$color-bg-page: #f5f6fa;
+$color-bg-page: #f6f8ff;
 $color-surface: #ffffff;
-$color-border-subtle: #d4d7e0;
+$color-surface-soft: #f8fbff;
 
-$color-text-primary: #1d2130;
-$color-text-secondary: #6b7280;
+$color-border-subtle: #e5e7f0;
+$color-timeline-grid-line: #eef0fa;
+$color-timeline-row-hover: rgba(123, 97, 255, 0.06);
 
-$color-status-open: #2b6fff;
-$color-status-in-progress: #6b4bff;
-$color-status-complete: #1bbf72;
-$color-status-blocked: #ff9f2b;
+$color-text-primary: #111827;
+$color-text-secondary: #9ca3af;
 
-$color-timeline-grid-line: #e2e5f0;
-$color-timeline-row-hover: #f0f4ff;
+$color-status-open: #4f46e5;        // blue-violet
+$color-status-in-progress: #6366f1; // brighter blue
+$color-status-complete: #22c55e;    // green
+$color-status-blocked: #f59e0b;     // amber
 
-// Spacing scale
+// Spacing
 $space-0: 0;
 $space-1: 4px;
 $space-2: 8px;
@@ -28,7 +29,7 @@ $space-7: 32px;
 $font-size-xs: 11px;
 $font-size-sm: 13px;
 $font-size-md: 14px;
-$font-size-lg: 16px;
+$font-size-lg: 18px;
 
 $font-weight-regular: 400;
 $font-weight-medium: 500;
@@ -36,6 +37,7 @@ $font-weight-semibold: 600;
 
 // Z-index
 $z-header: 100;
-$z-panel: 300;
-$z-panel-backdrop: 290;
-$z-tooltip: 400;
+$z-today-line: 150;
+$z-panel-backdrop: 190;
+$z-panel: 200;
+$z-tooltip: 300;
