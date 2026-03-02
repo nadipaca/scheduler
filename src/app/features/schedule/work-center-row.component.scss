@@ -1,0 +1,18 @@
+@use '../../../styles/tokens' as *;
+
+.work-center-row {
+  position: relative;
+  height: 40px;
+  cursor: pointer;
+}
+
+.work-center-row__lane {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid $color-timeline-grid-line;
+
+  &:hover {
+    background-color: $color-timeline-row-hover;
+  }
+}

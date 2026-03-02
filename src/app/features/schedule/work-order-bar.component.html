@@ -1,0 +1,47 @@
+<div
+  class="work-order-bar"
+  [ngStyle]="layoutStyle"
+  (click)="onBarClick($event)"
+>
+  <div class="work-order-bar__content">
+    <span class="work-order-bar__name">
+      {{ workOrder.data.name }}
+    </span>
+
+    <app-status-badge
+      class="work-order-bar__status"
+      [status]="workOrder.data.status"
+    ></app-status-badge>
+  </div>
+
+  <div
+    ngbDropdown
+    class="work-order-bar__menu"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      type="button"
+      class="work-order-bar__menu-toggle"
+      ngbDropdownToggle
+    >
+      ⋯
+    </button>
+
+    <div ngbDropdownMenu>
+      <button
+        type="button"
+        ngbDropdownItem
+        (click)="onEditClick($event)"
+      >
+        Edit
+      </button>
+      <button
+        type="button"
+        ngbDropdownItem
+        (click)="onDeleteClick($event)"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</div>

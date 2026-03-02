@@ -3,26 +3,14 @@
 .timeline-grid {
   display: flex;
   flex-direction: column;
-  min-width: 100%;
+  min-height: 100%;
 }
 
 .timeline-grid__row {
   position: relative;
-  height: 40px; // approximate row height; match Sketch later
+  height: 40px; // tune to match Sketch
 }
 
 .timeline-grid__row--even {
   background-color: rgba(15, 23, 42, 0.01);
-}
-
-.timeline-grid__cells {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-bottom: 1px solid $color-timeline-grid-line;
-}
-
-.timeline-grid__row-background {
-  position: absolute;
-  inset: 0;
 }

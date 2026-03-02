@@ -1,0 +1,33 @@
+@use '../../../styles/tokens' as *;
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 $space-2;
+  height: 18px;
+  border-radius: 999px;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+/* Colors from tokens */
+.status-badge--open {
+  background-color: rgba($color-status-open, 0.12);
+  color: $color-status-open;
+}
+
+.status-badge--in-progress {
+  background-color: rgba($color-status-in-progress, 0.12);
+  color: $color-status-in-progress;
+}
+
+.status-badge--complete {
+  background-color: rgba($color-status-complete, 0.12);
+  color: $color-status-complete;
+}
+
+.status-badge--blocked {
+  background-color: rgba($color-status-blocked, 0.16);
+  color: $color-status-blocked;
+}
