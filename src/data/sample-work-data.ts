@@ -1,5 +1,5 @@
-import { WorkCenterDocument } from '../models/work-center.model';
-import { WorkOrderDocument } from '../models/work-order.model';
+import { WorkCenterDocument } from '../app/core/models/work-center.model';
+import { WorkOrderDocument } from '../app/core/models/work-order.model';
 
 export const SAMPLE_WORK_CENTERS: WorkCenterDocument[] = [
   {
