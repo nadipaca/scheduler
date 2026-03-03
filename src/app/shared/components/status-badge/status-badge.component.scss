@@ -1,34 +1,34 @@
-@use '../../../styles/tokens' as *;
+@use '../../../../styles/tokens' as *;
 
 .status-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 $space-2;
-  height: 18px;
-  border-radius: 999px;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
+  padding: 0 8px;
+  height: 22px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 400;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .status-badge--open {
-  background-color: $color-status-open-bg;
-  color: $color-status-open;
+  background-color: #CFF3F8;
+  color: #00A6B6;
 }
 
 .status-badge--in-progress {
-  background-color: $color-status-in-progress-bg;
-  color: $color-status-in-progress;
+  background-color: #EDEEFF;
+  color: rgba(62, 64, 219, 1);
 }
 
 .status-badge--complete {
-  background-color: $color-status-complete-bg;
-  color: $color-status-complete;
+  background-color: rgba(225, 255, 204, 1);
+  color: rgba(8, 162, 104, 1);
 }
 
 .status-badge--blocked {
-  background-color: $color-status-blocked-bg;
-  color: $color-status-blocked;
+  background-color: rgba(252, 238, 181, 1);
+  color: rgba(177, 54, 0, 1);
 }

@@ -8,33 +8,29 @@
 }
 
 html,
-body {
+body,
+app-root {
   height: 100%;
+  margin: 0;
 }
 
 body {
-  margin: 0;
   font-family: 'Circular-Std', system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', sans-serif;
   color: $color-text-primary;
-  background-color: $color-bg-page;
+  background-color: $color-surface;
 }
 
 app-root {
-  min-height: 100%;
-  display: flex;
-  justify-content: center;
+  display: block;
 }
 
-/* Center the app content and give it breathing room */
+/* Full-screen app shell — no card/modal framing */
 .app-shell {
   width: 100%;
-  max-width: 1120px;
-  margin: $space-6 auto;
-  padding: $space-6 $space-6 $space-6;
+  min-height: 100%;
+  padding: $space-6;
   background-color: $color-surface;
-  border-radius: 12px;
-  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
 }
 
 /* Panel slide-in / backdrop animations */

@@ -3,7 +3,13 @@
 .schedule-page {
   display: flex;
   flex-direction: column;
-  min-height: 560px;
+  // Fill the full viewport height minus the app-shell padding
+  min-height: calc(100vh - #{$space-6 * 2});
+}
+
+.schedule-page--panel-open app-timeline-header,
+.schedule-page--panel-open .schedule-main {
+  pointer-events: none;
 }
 
 .schedule-main {
@@ -33,7 +39,7 @@
 }
 
 .schedule-main__left-header {
-  height: 48px; // matches the taller timeline header cells
+  height: 56px; // matches timeline-grid__header height
   display: flex;
   align-items: flex-end;
   padding: 0 $space-4 $space-2;

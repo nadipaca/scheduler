@@ -8,6 +8,7 @@ import {
   startOfMonth,
   endOfMonth,
   isBefore,
+  isAfter,
 } from 'date-fns';
 import { TimelineZoom, TIMELINE_ZOOM_CONFIG } from './timeline-zoom.config';
 
@@ -84,10 +85,12 @@ function generateWeekCells(range: TimelineRange): TimelineHeaderCell[] {
   while (!isBefore(hardEnd, cursor)) {
     const weekStart = cursor;
     const weekEnd = endOfWeek(cursor, { weekStartsOn: 1 });
+    const cellStart = isBefore(weekStart, range.start) ? range.start : weekStart;
+    const cellEnd = isAfter(weekEnd, range.end) ? range.end : weekEnd;
     cells.push({
       label: format(weekStart, "wo 'week'"),
-      start: weekStart,
-      end: weekEnd,
+      start: cellStart,
+      end: cellEnd,
     });
     cursor = addDays(cursor, 7);
   }
@@ -104,10 +107,12 @@ function generateMonthCells(range: TimelineRange): TimelineHeaderCell[] {
   while (!isBefore(hardEnd, cursor)) {
     const monthStart = cursor;
     const monthEnd = endOfMonth(cursor);
+    const cellStart = isBefore(monthStart, range.start) ? range.start : monthStart;
+    const cellEnd = isAfter(monthEnd, range.end) ? range.end : monthEnd;
     cells.push({
       label: format(monthStart, 'MMM yyyy'),
-      start: monthStart,
-      end: monthEnd,
+      start: cellStart,
+      end: cellEnd,
     });
     cursor = addDays(monthEnd, 1); // move to first day of next month
   }
@@ -125,8 +130,26 @@ export function dateToX(
   zoom: TimelineZoom,
 ): number {
   const cfg = TIMELINE_ZOOM_CONFIG[zoom];
-  const daysFromStart = differenceInCalendarDays(date, range.start);
-  return daysFromStart * cfg.pixelsPerDay;
+  if (zoom === 'day') {
+    const daysFromStart = differenceInCalendarDays(date, range.start);
+    return daysFromStart * cfg.pixelsPerDay;
+  }
+
+  const cells = generateHeaderCells(zoom, range);
+  const periodWidth = cfg.pixelsPerDay;
+  const idx = findCellIndex(date, cells);
+  if (idx === -1) {
+    const daysFromStart = differenceInCalendarDays(date, range.start);
+    return daysFromStart * periodWidth;
+  }
+  const cell = cells[idx];
+  const daysInCell = differenceInCalendarDays(addDays(cell.end, 1), cell.start);
+  const daysFromCellStart = Math.max(
+    0,
+    differenceInCalendarDays(date, cell.start),
+  );
+  const fraction = daysInCell === 0 ? 0 : daysFromCellStart / daysInCell;
+  return idx * periodWidth + fraction * periodWidth;
 }
 
 /**
@@ -140,15 +163,24 @@ export function intervalToBarLayout(
   zoom: TimelineZoom,
 ): { x: number; width: number } {
   const cfg = TIMELINE_ZOOM_CONFIG[zoom];
+  const periodWidth = cfg.pixelsPerDay;
 
-  const startDays = differenceInCalendarDays(start, range.start);
-  const endDaysExclusive = differenceInCalendarDays(addDays(end, 1), range.start);
+  if (zoom === 'day') {
+    const startDays = differenceInCalendarDays(start, range.start);
+    const endDaysExclusive = differenceInCalendarDays(addDays(end, 1), range.start);
 
-  const x = startDays * cfg.pixelsPerDay;
-  const width = Math.max(
-    (endDaysExclusive - startDays) * cfg.pixelsPerDay,
-    cfg.pixelsPerDay * 0.5, // minimum visible width
-  );
+    const x = startDays * periodWidth;
+    const width = Math.max(
+      (endDaysExclusive - startDays) * periodWidth,
+      periodWidth * 0.5, // minimum visible width
+    );
+
+    return { x, width };
+  }
+
+  const x = dateToX(start, range, zoom);
+  const endX = dateToX(addDays(end, 1), range, zoom);
+  const width = Math.max(endX - x, periodWidth * 0.5);
 
   return { x, width };
 }
@@ -163,8 +195,34 @@ export function xToDate(
   zoom: TimelineZoom,
 ): Date {
   const cfg = TIMELINE_ZOOM_CONFIG[zoom];
-  const daysFromStart = xPx / cfg.pixelsPerDay;
-  return addDays(range.start, Math.floor(daysFromStart));
+  if (zoom === 'day') {
+    const daysFromStart = xPx / cfg.pixelsPerDay;
+    return addDays(range.start, Math.floor(daysFromStart));
+  }
+
+  const periodWidth = cfg.pixelsPerDay;
+  const cells = generateHeaderCells(zoom, range);
+  if (cells.length === 0) return range.start;
+
+  const idx = Math.max(0, Math.min(Math.floor(xPx / periodWidth), cells.length - 1));
+  const cell = cells[idx];
+  const daysInCell = differenceInCalendarDays(addDays(cell.end, 1), cell.start);
+  if (daysInCell === 0) return cell.start;
+
+  const offset = xPx - idx * periodWidth;
+  const fraction = Math.max(0, Math.min(offset / periodWidth, 0.999));
+  const dayOffset = Math.floor(fraction * daysInCell);
+  return addDays(cell.start, dayOffset);
+}
+
+function findCellIndex(date: Date, cells: TimelineHeaderCell[]): number {
+  for (let i = 0; i < cells.length; i += 1) {
+    const cell = cells[i];
+    if (isBefore(date, cell.start)) continue;
+    if (isAfter(date, cell.end)) continue;
+    return i;
+  }
+  return -1;
 }
 
 /** Get today's x position in the current range (can be negative / > width). */

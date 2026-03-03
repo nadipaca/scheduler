@@ -1,29 +1,33 @@
 @use '../../../styles/tokens' as *;
 
 .timeline-header {
-  margin-bottom: $space-3;
+  margin-bottom: 10px;
 }
 
 .timeline-header__title {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
-  color: $color-text-primary;
-  margin: 0 0 $space-3;
-  line-height: 1.2;
+  font-size: 28px;
+  font-weight: 700;
+  color: rgba(14, 19, 43, 1);
+  margin: 0 0 26px;
+  line-height: 34px;
 }
 
 .timeline-header__controls-row {
-  margin-bottom: $space-3;
+  margin-bottom: 8px;
 }
 
 /* Timescale pill-group control */
 .timescale-control {
   display: inline-flex;
   align-items: center;
-  background: $color-surface;
-  border: 1px solid $color-border-subtle;
-  border-radius: 999px;
-  height: 28px;
+  background: #ffffff;
+  border: 1px solid rgba(216, 220, 235, 1);
+  border-radius: 5px;
+  height: 34px;
+  min-width: 142px;
+  box-shadow:
+    0 4.5px 5px -1px rgba(200, 207, 233, 1),
+    0 0 0 1px rgba(216, 220, 235, 1);
   // No overflow:hidden — it would clip the ng-select dropdown panel
   transition: border-color $duration-fast ease, box-shadow $duration-fast ease;
 
@@ -33,80 +37,22 @@
   }
 
   &__label {
-    padding: 0 $space-3;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-medium;
-    color: $color-text-secondary;
+    padding: 4px 8px 5px;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(104, 113, 150, 1);
     white-space: nowrap;
-    line-height: 26px;
-    border-right: 1px solid $color-border-subtle;
+    line-height: 16px;
+    border-right: 1px solid rgba(216, 220, 235, 1);
     user-select: none;
     // round the left edge of the pill
-    border-radius: 999px 0 0 999px;
+    border-radius: 5px 0 0 5px;
+    background: rgba(241, 243, 248, 1);
+    min-width: 59px;
+    text-align: left;
   }
 
   &__select {
-    min-width: 80px;
+    min-width: 71px;
   }
-}
-
-/* Time header row */
-.timeline-header__time-row {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  column-gap: $space-2;
-}
-
-.timeline-header__time-spacer {
-  display: flex;
-  align-items: flex-end;
-  padding: 0 $space-4 $space-2;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
-  color: $color-text-secondary;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-}
-
-.timeline-header__time-track {
-  display: flex;
-  border-bottom: 1px solid $color-border-subtle;
-  background-color: $color-surface-soft;
-}
-
-.timeline-header__time-cell {
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 3px;
-  padding: $space-2 0;
-  min-height: 48px;
-  border-right: 1px solid $color-timeline-grid-line;
-  font-size: $font-size-xs;
-  color: $color-text-secondary;
-  text-align: center;
-
-  &--current .timeline-header__time-cell-label {
-    color: $color-text-primary;
-    font-weight: $font-weight-medium;
-  }
-}
-
-.timeline-header__time-cell-label {
-  line-height: 1;
-}
-
-.timeline-header__current-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px $space-2;
-  background-color: $color-status-complete-bg;
-  color: $color-status-complete;
-  border-radius: 999px;
-  font-size: 10px;
-  font-weight: $font-weight-medium;
-  line-height: 1.4;
-  white-space: nowrap;
 }

@@ -1,4 +1,7 @@
-<div class="app-shell schedule-page">
+<div
+  class="app-shell schedule-page"
+  [class.schedule-page--panel-open]="panelOpen"
+>
   <app-timeline-header
     [zoom]="zoom"
     [visibleRange]="visibleRange"
@@ -34,9 +37,11 @@
           [visibleRange]="visibleRange"
           [workCenters]="(workCenters$ | async) ?? []"
           [workOrders]="(workOrders$ | async) ?? []"
+          [selectedWorkOrderId]="selectedWorkOrder?.docId ?? null"
           (createRequested)="onCreateRequested($event)"
           (editRequested)="onEditRequested($event)"
           (deleteRequested)="onDeleteRequested($event)"
+          (selectRequested)="onSelectRequested($event)"
         ></app-timeline-grid>
       </div>
     </div>

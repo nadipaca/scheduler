@@ -8,21 +8,67 @@
   background-color: $color-surface-soft;
 }
 
+// ─── Date header row ──────────────────────────────────────────────────────────
+
+.timeline-grid__header {
+  display: flex;
+  height: 56px;
+  background-color: $color-surface;
+  border-bottom: 1px solid $color-border-subtle;
+  position: relative;
+  z-index: $z-header;
+  flex-shrink: 0;
+}
+
+.timeline-grid__header-cell {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: $space-3 0 $space-2;
+  font-size: $font-size-sm;
+  color: #6b7280;
+  text-align: center;
+
+  &--current .timeline-grid__header-cell-label {
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.timeline-grid__header-cell-label {
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.timeline-grid__current-badge-overlay {
+  position: absolute;
+  top: 56px;
+  left: calc(var(--current-x, 0px) + (var(--current-width, 0px) / 2));
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  padding: 4px $space-4;
+  background-color: #d6ddff;
+  color: rgba(62, 64, 219, 1);
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: $font-weight-semibold;
+  line-height: 1.4;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+// ─── Grid rows ────────────────────────────────────────────────────────────────
+
 .timeline-grid__row {
   position: relative;
   height: 44px;
+  z-index: 1;
 }
 
 .timeline-grid__row--even {
-  background-color: rgba(99, 102, 241, 0.02);
-}
-
-.timeline-grid__today-line {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background-color: rgba(129, 140, 248, 0.9);
-  pointer-events: none;
-  z-index: $z-today-line;
+  background-color: transparent;
 }

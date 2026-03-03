@@ -1,13 +1,34 @@
 <div
   class="timeline-grid"
   [style.width.px]="trackWidthPx"
+  [style.--day-width.px]="dayWidthPx"
+  [style.--col-width.px]="86"
+  [style.--col-gap.px]="28"
+  [style.--current-x.px]="currentPeriodX ?? -9999"
+  [style.--current-width.px]="currentPeriodWidth"
 >
-  <!-- Today vertical indicator -->
+  <!-- Date header row — scrolls horizontally with the grid -->
+  <div class="timeline-grid__header" role="row" aria-label="Timeline columns">
+    <div
+      *ngFor="let cell of headerCells"
+      class="timeline-grid__header-cell"
+      [class.timeline-grid__header-cell--current]="isCurrentPeriod(cell)"
+      [style.width.px]="getCellWidthPx(cell)"
+      role="columnheader"
+      [attr.aria-current]="isCurrentPeriod(cell) ? 'date' : null"
+    >
+      <!-- Date label first, badge below (matches design) -->
+      <span class="timeline-grid__header-cell-label">{{ cell.label }}</span>
+    </div>
+  </div>
+
   <div
-    *ngIf="todayX !== null"
-    class="timeline-grid__today-line"
-    [style.left.px]="todayX"
-  ></div>
+    *ngIf="currentPeriodX !== null"
+    class="timeline-grid__current-badge-overlay"
+    aria-hidden="true"
+  >
+    {{ currentPeriodLabel }}
+  </div>
 
   <app-work-center-row
     *ngFor="let row of rows; let i = index"
@@ -17,9 +38,11 @@
     [workOrders]="row.workOrders"
     [zoom]="zoom"
     [visibleRange]="visibleRange"
+    [selectedWorkOrderId]="selectedWorkOrderId"
     (createRequested)="onRowCreateRequested($event)"
     (editRequested)="onRowEditRequested($event)"
     (deleteRequested)="onRowDeleteRequested($event)"
+    (selectRequested)="onRowSelectRequested($event)"
   >
   </app-work-center-row>
 </div>

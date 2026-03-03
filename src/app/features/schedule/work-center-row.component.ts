@@ -29,6 +29,7 @@ export class WorkCenterRowComponent {
   @Input({ required: true }) workOrders: WorkOrderDocument[] = [];
   @Input({ required: true }) zoom!: TimelineZoom;
   @Input({ required: true }) visibleRange!: TimelineRange;
+  @Input() selectedWorkOrderId: string | null = null;
 
   @Output() createRequested = new EventEmitter<{
     workCenter: WorkCenterDocument;
@@ -36,6 +37,7 @@ export class WorkCenterRowComponent {
   }>();
   @Output() editRequested = new EventEmitter<WorkOrderDocument>();
   @Output() deleteRequested = new EventEmitter<WorkOrderDocument>();
+  @Output() selectRequested = new EventEmitter<WorkOrderDocument>();
 
   @ViewChild('lane', { static: true })
   private laneRef!: ElementRef<HTMLDivElement>;
@@ -77,8 +79,9 @@ export class WorkCenterRowComponent {
     this.deleteRequested.emit(workOrder);
   }
 
-  onBarClick(event: MouseEvent): void {
+  onBarClick(workOrder: WorkOrderDocument, event: MouseEvent): void {
     // prevent row click when bar is clicked
     event.stopPropagation();
+    this.selectRequested.emit(workOrder);
   }
 }

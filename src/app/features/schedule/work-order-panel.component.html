@@ -35,7 +35,7 @@
             class="wo-panel__btn wo-panel__btn--primary"
             [disabled]="saving"
           >
-            {{ mode === 'create' ? 'Create' : 'Save' }}
+            {{ mode === 'create' ? 'Create' : 'Update' }}
           </button>
         </div>
       </div>
@@ -67,7 +67,7 @@
         </div>
       </div>
 
-      <div class="wo-panel__section">
+      <div class="wo-panel__section wo-panel__section--tight">
         <label class="wo-panel__label" for="wo-status">Status</label>
         <ng-select
           inputId="wo-status"
@@ -84,7 +84,7 @@
             <span [class]="'status-opt status-opt--' + item.value">{{ item.label }}</span>
           </ng-template>
           <ng-template ng-option-tmp let-item="item">
-            <span [class]="'status-opt status-opt--' + item.value">{{ item.label }}</span>
+            <span class="status-opt status-opt--plain">{{ item.label }}</span>
           </ng-template>
         </ng-select>
         <div

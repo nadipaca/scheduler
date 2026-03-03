@@ -1,11 +1,7 @@
 <header class="timeline-header" role="banner">
   <h1 class="timeline-header__title">Work Orders</h1>
 
- 
-
-  <!-- Time header row (aligns with scrollable grid) -->
-  <div class="timeline-header__time-row" role="row" aria-label="Timeline columns">
-     <div class="timeline-header__controls-row">
+  <div class="timeline-header__controls-row">
     <div
       class="timescale-control"
       role="group"
@@ -23,28 +19,9 @@
         (ngModelChange)="onZoomSelect($event)"
         aria-labelledby="timescale-label"
         appendTo="body"
+        panelClass="timescale-panel"
       >
       </ng-select>
-    </div>
-  </div>
-    <div class="timeline-header__time-track" role="presentation">
-      <div
-        *ngFor="let cell of headerCells"
-        class="timeline-header__time-cell"
-        [class.timeline-header__time-cell--current]="isCurrentPeriod(cell)"
-        [style.width.px]="getCellWidthPx(cell)"
-        role="columnheader"
-        [attr.aria-current]="isCurrentPeriod(cell) ? 'date' : null"
-      >
-        <span
-          *ngIf="isCurrentPeriod(cell)"
-          class="timeline-header__current-badge"
-          aria-hidden="true"
-        >
-          {{ currentPeriodLabel }}
-        </span>
-        <span class="timeline-header__time-cell-label">{{ cell.label }}</span>
-      </div>
     </div>
   </div>
 </header>

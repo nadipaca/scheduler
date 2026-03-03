@@ -1,6 +1,7 @@
-<div
+﻿<div
   class="work-order-bar"
   [ngClass]="'work-order-bar--' + workOrder.data.status"
+  [class.work-order-bar--active]="active"
   [ngStyle]="layoutStyle"
   (click)="onBarClick($event)"
 >
@@ -46,3 +47,4 @@
     </div>
   </div>
 </div>
+

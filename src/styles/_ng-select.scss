@@ -23,14 +23,16 @@
   .ng-value-label {
     font-weight: $font-weight-medium;
   }
+}
 
-  .ng-dropdown-panel {
-    border: 1px solid $color-border-subtle;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-    overflow: hidden;
-    margin-top: 4px;
-  }
+.ng-dropdown-panel {
+  background-color: $color-surface;
+  border: 1px solid $color-border-subtle;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+  margin-top: 4px;
+  font-family: 'Circular-Std', system-ui, sans-serif;
 
   .ng-dropdown-panel-items {
     padding: $space-1 0;
@@ -40,7 +42,9 @@
     padding: $space-2 $space-3;
     font-size: $font-size-sm;
     color: $color-text-primary;
+    background-color: $color-surface;
     cursor: pointer;
+    font-weight: $font-weight-semibold;
     transition: background-color $duration-fast ease;
 
     &.ng-option-marked {
@@ -60,38 +64,44 @@
     border: none !important;
     background: transparent !important;
     min-height: unset;
-    height: 26px;
-    padding: 0 $space-1 0 $space-2;
+    height: 34px;
+    padding: 0 8px;
     box-shadow: none !important;
+    display: flex;
+    align-items: center;
   }
 
   .ng-value-container {
     padding: 0;
+    display: flex;
+    align-items: center;
   }
 
   .ng-value .ng-value-label {
-    color: $color-status-open;
-    font-weight: $font-weight-medium;
-    font-size: $font-size-sm;
+    color: rgba(62, 64, 219, 1);
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
   }
 
   .ng-arrow-wrapper {
+    display: flex;
+    align-items: center;
     width: 16px;
-    padding-right: $space-2;
+    padding-left: 4px;
 
     .ng-arrow {
-      border-color: $color-status-open transparent transparent;
-      border-width: 4px 4px 0;
+      border-style: solid;
+      border-color: rgba(62, 64, 219, 1) transparent transparent;
+      border-width: 5px 5px 0;
+      display: inline-block;
     }
   }
 
   &.ng-select-opened .ng-arrow-wrapper .ng-arrow {
-    border-color: transparent transparent $color-status-open;
-    border-width: 0 4px 4px;
-  }
-
-  .ng-dropdown-panel .ng-option.ng-option-selected .ng-option-label {
-    color: $color-status-open;
+    border-style: solid;
+    border-color: transparent transparent rgba(62, 64, 219, 1);
+    border-width: 0 5px 5px;
   }
 }
 
@@ -99,25 +109,91 @@
 .status-opt {
   display: inline-flex;
   align-items: center;
-  padding: 2px $space-3;
-  border-radius: 999px;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
   white-space: nowrap;
 
-  &--open         { background: $color-status-open-bg;        color: $color-status-open;        }
-  &--in-progress  { background: $color-status-in-progress-bg; color: $color-status-in-progress; }
-  &--complete     { background: $color-status-complete-bg;    color: $color-status-complete;    }
-  &--blocked      { background: $color-status-blocked-bg;     color: $color-status-blocked;     }
+  &--open         { background: $color-status-open-bg;        color: $color-status-open;   border: 1px solid $color-status-open-bg;     }
+  &--in-progress  { background: $color-status-in-progress-bg; color: $color-status-in-progress; border: 1px solid $color-status-in-progress-bg; }
+  &--complete     { background: $color-status-complete-bg;    color: $color-status-complete;    border: 1px solid $color-status-complete-bg; }
+  &--blocked      { background: $color-status-blocked-bg;     color: $color-status-blocked;     border: 1px solid $color-status-blocked-bg; }
+  &--plain        { background: transparent; color: #111827; border: 0; font-weight: $font-weight-regular; }
 }
+
+// ─── Timescale portal panel (panelClass="timescale-panel") ───────────────────
+// Larger options to match the reference design
+.timescale-panel.ng-dropdown-panel {
+  min-width: 200px;
+  border-radius: 5px;
+  border: 1px solid rgba(216, 220, 235, 1);
+  box-shadow:
+    0 4.5px 5px -1px rgba(200, 207, 233, 1),
+    0 0 0 1px rgba(216, 220, 235, 1);
+  background-color: #ffffff;
+
+  // Items wrapper must fill the panel so options can stretch edge-to-edge
+  .ng-dropdown-panel-items {
+    width: 100%;
+    padding: 17px 38px 12px 12px;
+  }
+
+  .ng-option {
+    display: block;           // explicit block so the row spans full width
+    width: 100%;              // stretch to panel edge
+    box-sizing: border-box;   // padding counted inside the width
+    font-size: 14px;
+    font-weight: 400;
+    padding: 0;
+    line-height: 18px;
+    color: rgba(47, 52, 84, 1);
+
+    &.ng-option-selected {
+      color: rgba(62, 64, 219, 1);
+      background-color: transparent;
+    }
+
+    &.ng-option-marked {
+      background-color: transparent;
+    }
+  }
+}
+
+
 
 .wo-panel__select {
   .ng-select-container {
-    min-height: 36px;
+    min-height: 40px;
+    border-radius: 5px;
     align-items: center;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    border: 2px solid rgba(170, 175, 255, 1);
   }
 
   .ng-value-container {
     padding: 0 $space-1;
+  }
+
+  // Panel dropdown should match UX: no background for options, only text color changes
+  .ng-dropdown-panel .ng-option {
+    background-color: $color-surface;
+    color: #111827;
+    font-weight: 500;
+ 
+
+    &.ng-option-marked,
+    &.ng-option-selected {
+      background-color: $color-surface;
+    }
+
+    &.ng-option-selected .status-opt {
+      color: #3E40DB;
+    }
+  }
+
+  .ng-dropdown-panel {
+    margin-top: 2px;
+    border-radius: 5px;
   }
 }

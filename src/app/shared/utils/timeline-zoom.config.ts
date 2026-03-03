@@ -1,4 +1,4 @@
-export type TimelineZoom = 'day' | 'week' | 'month';
+﻿export type TimelineZoom = 'day' | 'week' | 'month';
 
 export interface TimelineZoomConfig {
   id: TimelineZoom;
@@ -13,19 +13,19 @@ export interface TimelineZoomConfig {
 export const TIMELINE_ZOOM_CONFIG: Record<TimelineZoom, TimelineZoomConfig> = {
   day: {
     id: 'day',
-    pixelsPerDay: 40,      // narrow columns
+    pixelsPerDay: 114,     // 86px column + 28px gap
     visibleDaysBefore: 14, // ±2 weeks
     visibleDaysAfter: 14,
   },
   week: {
     id: 'week',
-    pixelsPerDay: 10,      // compressed days
+    pixelsPerDay: 114,     // 86px column + 28px gap
     visibleDaysBefore: 60, // roughly ±2 months
     visibleDaysAfter: 60,
   },
   month: {
     id: 'month',
-    pixelsPerDay: 2,       // many days on screen
+    pixelsPerDay: 114,     // 86px column + 28px gap
     visibleDaysBefore: 180, // roughly ±6 months
     visibleDaysAfter: 180,
   },

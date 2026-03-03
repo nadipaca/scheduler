@@ -3,28 +3,35 @@
 .work-order-bar {
   position: absolute;
   top: 8px;
-  height: 28px;
+  height: 38px;
   padding: 0 $space-2 0 $space-3;
-  border-radius: 999px;
+  border-radius: 8px;
+  border: 1px solid transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: $space-2;
-  font-size: $font-size-xs;
+  font-size: $font-size-sm;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.10);
+  color: $color-text-primary;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
   transition: box-shadow $duration-fast ease, filter $duration-fast ease;
 
   &:hover {
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
-    filter: brightness(0.97);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14);
+    filter: brightness(0.98);
   }
+}
+
+.work-order-bar--active {
+  z-index: 5;
 }
 
 .work-order-bar__content {
   display: flex;
   align-items: center;
   gap: $space-2;
+  justify-content: space-between;
   overflow: hidden;
   flex: 1;
   min-width: 0;
@@ -34,80 +41,115 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: $font-weight-medium;
+  font-weight: 400;
+  color: rgba(3, 9, 41, 1);
+  font-size: 14px;
+}
+
+.work-order-bar__status {
+  margin-left: $space-2;
+
+  .status-badge {
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 400;
+  }
 }
 
 /* Status‑specific backgrounds */
 .work-order-bar--open {
-  background-color: rgba(99, 102, 241, 0.10);
-  color: $color-status-open;
+  background-color: #E0F7F8;
+  border-color: #C3EEF1;
 }
 
 .work-order-bar--in-progress {
-  background-color: rgba(99, 102, 241, 0.12);
-  color: $color-status-in-progress;
+  background-color: #EDEEFF;
+  border-color: #DEE0FF;
 }
 
 .work-order-bar--complete {
-  background-color: rgba(34, 197, 94, 0.12);
-  color: $color-status-complete;
+  background-color: #F8FFF3;
+  border-color: #D1FAB3;
 }
 
 .work-order-bar--blocked {
-  background-color: rgba(245, 158, 11, 0.12);
-  color: $color-status-blocked;
+  background-color: #FFF7E4;
+  border-color: #F5E2B5;
 }
 
 /* Menu toggle: hidden until bar is hovered or dropdown is open */
 .work-order-bar__menu {
   flex-shrink: 0;
+  pointer-events: none;
 }
 
 .work-order-bar__menu-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 22px;
   border: none;
-  border-radius: 50%;
-  background: transparent;
-  color: inherit;
+  border-radius: 5px;
+  background: rgba(241, 243, 248, 1);
+  color: #6b7280;
   font-size: 14px;
   line-height: 1;
   cursor: pointer;
   opacity: 0;
   padding: 0;
-  transition: opacity $duration-fast ease, background-color $duration-fast ease;
+  transition: opacity $duration-fast ease, background-color $duration-fast ease, color $duration-fast ease;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(17, 24, 39, 0.08);
+    color: #111827;
   }
 }
 
+.work-order-bar__menu-toggle::after {
+  display: none;
+}
+
 .work-order-bar:hover .work-order-bar__menu-toggle,
+.work-order-bar--active .work-order-bar__menu-toggle,
 .work-order-bar__menu.show .work-order-bar__menu-toggle {
   opacity: 1;
 }
 
+.work-order-bar:hover .work-order-bar__menu {
+  pointer-events: auto;
+}
+
+.work-order-bar--active .work-order-bar__menu,
+.work-order-bar__menu.show {
+  pointer-events: auto;
+}
+
 /* ngb dropdown panel */
 .work-order-bar__menu .dropdown-menu {
-  min-width: 120px;
-  padding: $space-1 0;
+  min-width: 140px;
+  padding: $space-2 0;
   border: 1px solid $color-border-subtle;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
   font-size: $font-size-sm;
+  z-index: 10;
 }
 
 .work-order-bar__menu .dropdown-item {
-  padding: $space-2 $space-3;
-  color: $color-text-primary;
+  padding: $space-2 $space-4;
+  color: #111827;
   cursor: pointer;
   transition: background-color $duration-fast ease;
 
   &:hover {
     background-color: rgba(79, 70, 229, 0.05);
-    color: $color-text-primary;
+    color: #111827;
   }
+}
+
+.work-order-bar__menu .dropdown-item:last-child {
+  color: $color-status-open;
 }

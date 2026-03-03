@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { differenceInCalendarDays } from 'date-fns';
+import { differenceInCalendarDays, isSameDay, isSameWeek, isSameMonth } from 'date-fns';
 
 import { WorkCenterDocument } from '../../core/models/work-center.model';
 import { WorkOrderDocument } from '../../core/models/work-order.model';
@@ -17,8 +17,10 @@ import {
 } from '../../shared/utils/timeline-zoom.config';
 import {
   TimelineRange,
+  TimelineHeaderCell,
+  generateHeaderCells,
+  dateToX,
   getToday,
-  todayToX,
 } from '../../shared/utils/date-range.util';
 import { WorkCenterRowComponent } from './work-center-row.component';
 
@@ -39,6 +41,7 @@ export class TimelineGridComponent implements OnChanges {
   @Input({ required: true }) visibleRange!: TimelineRange;
   @Input({ required: true }) workCenters: WorkCenterDocument[] = [];
   @Input({ required: true }) workOrders: WorkOrderDocument[] = [];
+  @Input() selectedWorkOrderId: string | null = null;
 
   @Output() createRequested = new EventEmitter<{
     workCenter: WorkCenterDocument;
@@ -47,16 +50,56 @@ export class TimelineGridComponent implements OnChanges {
 
   @Output() editRequested = new EventEmitter<WorkOrderDocument>();
   @Output() deleteRequested = new EventEmitter<WorkOrderDocument>();
+  @Output() selectRequested = new EventEmitter<WorkOrderDocument>();
 
   rows: WorkCenterRowView[] = [];
   trackWidthPx = 0;
-  todayX: number | null = null;
+  currentPeriodX: number | null = null;
+  currentPeriodWidth = 0;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.rebuildRows();
     this.recalculateTrackWidth();
-    this.recalculateTodayX();
+    this.recalculateCurrentPeriodX();
   }
+
+  // ─── Header cell helpers ──────────────────────────────────────────────────
+
+  get headerCells(): TimelineHeaderCell[] {
+    return generateHeaderCells(this.zoom, this.visibleRange);
+  }
+
+  get dayWidthPx(): number {
+    return TIMELINE_ZOOM_CONFIG[this.zoom]?.pixelsPerDay ?? 0;
+  }
+
+  get currentPeriodLabel(): string {
+    switch (this.zoom) {
+      case 'day':   return 'Today';
+      case 'week':  return 'Current week';
+      case 'month': return 'Current month';
+    }
+  }
+
+  isCurrentPeriod(cell: TimelineHeaderCell): boolean {
+    const today = getToday();
+    switch (this.zoom) {
+      case 'day':   return isSameDay(cell.start, today);
+      case 'week':  return isSameWeek(cell.start, today, { weekStartsOn: 1 });
+      case 'month': return isSameMonth(cell.start, today);
+    }
+  }
+
+  getCellWidthPx(cell: TimelineHeaderCell): number {
+    const cfg = TIMELINE_ZOOM_CONFIG[this.zoom];
+    const spanDays = differenceInCalendarDays(cell.end, cell.start) + 1;
+    if (this.zoom === 'day') {
+      return spanDays * cfg.pixelsPerDay;
+    }
+    return cfg.pixelsPerDay;
+  }
+
+  // ─── Rows ─────────────────────────────────────────────────────────────────
 
   private rebuildRows(): void {
     const ordersByCenter = new Map<string, WorkOrderDocument[]>();
@@ -83,26 +126,29 @@ export class TimelineGridComponent implements OnChanges {
       this.trackWidthPx = 0;
       return;
     }
-    const totalDays =
-      differenceInCalendarDays(this.visibleRange.end, this.visibleRange.start) +
-      1;
     const cfg = TIMELINE_ZOOM_CONFIG[this.zoom];
-    this.trackWidthPx = totalDays * cfg.pixelsPerDay;
+    if (this.zoom === 'day') {
+      const totalDays =
+        differenceInCalendarDays(this.visibleRange.end, this.visibleRange.start) +
+        1;
+      this.trackWidthPx = totalDays * cfg.pixelsPerDay;
+    } else {
+      this.trackWidthPx = this.headerCells.length * cfg.pixelsPerDay;
+    }
   }
 
-  private recalculateTodayX(): void {
+  private recalculateCurrentPeriodX(): void {
     if (!this.visibleRange || !this.zoom) {
-      this.todayX = null;
+      this.currentPeriodX = null;
       return;
     }
-
-    const today = getToday();
-    if (today < this.visibleRange.start || today > this.visibleRange.end) {
-      this.todayX = null;
+    const cell = this.headerCells.find((c) => this.isCurrentPeriod(c));
+    if (!cell) {
+      this.currentPeriodX = null;
       return;
     }
-
-    this.todayX = todayToX(this.visibleRange, this.zoom);
+    this.currentPeriodX = dateToX(cell.start, this.visibleRange, this.zoom);
+    this.currentPeriodWidth = this.getCellWidthPx(cell);
   }
 
   onRowCreateRequested(payload: {
@@ -118,5 +164,9 @@ export class TimelineGridComponent implements OnChanges {
 
   onRowDeleteRequested(workOrder: WorkOrderDocument): void {
     this.deleteRequested.emit(workOrder);
+  }
+
+  onRowSelectRequested(workOrder: WorkOrderDocument): void {
+    this.selectRequested.emit(workOrder);
   }
 }

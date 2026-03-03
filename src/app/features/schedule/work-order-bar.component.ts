@@ -26,6 +26,7 @@ export class WorkOrderBarComponent {
   @Input({ required: true }) workOrder!: WorkOrderDocument;
   @Input({ required: true }) zoom!: TimelineZoom;
   @Input({ required: true }) visibleRange!: TimelineRange;
+  @Input() active = false;
 
   @Output() barClick = new EventEmitter<MouseEvent>();
   @Output() edit = new EventEmitter<void>();

@@ -138,6 +138,12 @@ export class ScheduleTimelinePageComponent implements AfterViewInit {
     // Streams will emit new values; grid updates automatically.
   }
 
+  onSelectRequested(workOrder: WorkOrderDocument): void {
+    const center = this.findCenterById(workOrder.data.workCenterId);
+    this.selectedWorkCenter = center ?? null;
+    this.selectedWorkOrder = workOrder;
+  }
+
   private findCenterById(id: string): WorkCenterDocument | undefined {
     return this.workCentersSnapshot.find(
       (c: WorkCenterDocument) => c.docId === id,
