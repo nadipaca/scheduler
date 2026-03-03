@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   HostListener,
+  Injectable,
   Input,
   OnChanges,
   Output,
@@ -17,6 +18,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
+  NgbDateParserFormatter,
   NgbDatepickerModule,
   NgbDateStruct,
 } from '@ng-bootstrap/ng-bootstrap';
@@ -32,6 +34,27 @@ import {
 import { hasWorkOrderOverlap } from '../../shared/utils/overlap.util';
 
 type PanelMode = 'create' | 'edit';
+
+function pad(n: number): string {
+  return String(n).padStart(2, '0');
+}
+
+@Injectable()
+class DotDateFormatter extends NgbDateParserFormatter {
+  parse(value: string): NgbDateStruct | null {
+    if (!value) return null;
+    const parts = value.split('.');
+    if (parts.length !== 3) return null;
+    const [mm, dd, yyyy] = parts.map(Number);
+    if (isNaN(mm) || isNaN(dd) || isNaN(yyyy)) return null;
+    return { year: yyyy, month: mm, day: dd };
+  }
+
+  format(date: NgbDateStruct | null): string {
+    if (!date) return '';
+    return `${pad(date.month)}.${pad(date.day)}.${date.year}`;
+  }
+}
 
 function structToDate(struct: NgbDateStruct | null): Date | null {
   if (!struct) return null;
@@ -64,6 +87,7 @@ function dateRangeValidator(group: AbstractControl): ValidationErrors | null {
   imports: [CommonModule, ReactiveFormsModule, NgbDatepickerModule, NgSelectModule],
   templateUrl: './work-order-panel.component.html',
   styleUrls: ['./work-order-panel.component.scss'],
+  providers: [{ provide: NgbDateParserFormatter, useClass: DotDateFormatter }],
 })
 export class WorkOrderPanelComponent implements OnChanges {
   @Input() open = false;

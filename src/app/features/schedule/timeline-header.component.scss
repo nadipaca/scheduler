@@ -4,30 +4,53 @@
   margin-bottom: $space-3;
 }
 
-.timeline-header__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: $space-3;
-}
-
 .timeline-header__title {
   font-size: $font-size-lg;
   font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin: 0 0 $space-3;
+  line-height: 1.2;
 }
 
-.timeline-header__controls {
-  display: flex;
+.timeline-header__controls-row {
+  margin-bottom: $space-3;
+}
+
+/* Timescale pill-group control */
+.timescale-control {
+  display: inline-flex;
   align-items: center;
-  gap: $space-2;
+  background: $color-surface;
+  border: 1px solid $color-border-subtle;
+  border-radius: 999px;
+  height: 28px;
+  // No overflow:hidden — it would clip the ng-select dropdown panel
+  transition: border-color $duration-fast ease, box-shadow $duration-fast ease;
+
+  &:focus-within {
+    border-color: $color-status-open;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.10);
+  }
+
+  &__label {
+    padding: 0 $space-3;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+    white-space: nowrap;
+    line-height: 26px;
+    border-right: 1px solid $color-border-subtle;
+    user-select: none;
+    // round the left edge of the pill
+    border-radius: 999px 0 0 999px;
+  }
+
+  &__select {
+    min-width: 80px;
+  }
 }
 
-.timeline-header__label {
-  font-size: $font-size-xs;
-  color: $color-text-secondary;
-}
-
-/* Month header row */
+/* Time header row */
 .timeline-header__time-row {
   display: grid;
   grid-template-columns: 240px 1fr;
@@ -35,9 +58,14 @@
 }
 
 .timeline-header__time-spacer {
+  display: flex;
+  align-items: flex-end;
+  padding: 0 $space-4 $space-2;
   font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
   color: $color-text-secondary;
-  padding: 0 $space-4;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .timeline-header__time-track {
@@ -48,9 +76,37 @@
 
 .timeline-header__time-cell {
   flex: 0 0 auto;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
   padding: $space-2 0;
+  min-height: 48px;
   border-right: 1px solid $color-timeline-grid-line;
   font-size: $font-size-xs;
   color: $color-text-secondary;
+  text-align: center;
+
+  &--current .timeline-header__time-cell-label {
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.timeline-header__time-cell-label {
+  line-height: 1;
+}
+
+.timeline-header__current-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px $space-2;
+  background-color: $color-status-complete-bg;
+  color: $color-status-complete;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: $font-weight-medium;
+  line-height: 1.4;
+  white-space: nowrap;
 }

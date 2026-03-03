@@ -1,20 +1,123 @@
+// Tokens are injected via @import in styles.scss (which imports _tokens.scss first).
+// Do NOT add @use here — it would re-define every token variable and cause a Sass conflict.
+
+// ─── Base ng-select overrides ────────────────────────────────────────────────
 .ng-select {
-  font-family: "Circular-Std", system-ui, sans-serif;
-  font-size: 14px;
+  font-family: 'Circular-Std', system-ui, sans-serif;
+  font-size: $font-size-sm;
 
   .ng-select-container {
     border-radius: 6px;
-    border: 1px solid #d4d7e0;
-    min-height: 36px;
-    padding: 0 8px;
+    border: 1px solid $color-border-subtle;
+    min-height: 34px;
+    padding: 0 $space-2;
+    background-color: $color-surface;
+    transition: border-color $duration-fast ease, box-shadow $duration-fast ease;
   }
 
   &.ng-select-opened .ng-select-container {
-    border-color: #2b6fff;
-    box-shadow: 0 0 0 1px rgba(43, 111, 255, 0.1);
+    border-color: $color-status-open;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.10);
   }
 
   .ng-value-label {
-    font-weight: 500;
+    font-weight: $font-weight-medium;
+  }
+
+  .ng-dropdown-panel {
+    border: 1px solid $color-border-subtle;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    overflow: hidden;
+    margin-top: 4px;
+  }
+
+  .ng-dropdown-panel-items {
+    padding: $space-1 0;
+  }
+
+  .ng-option {
+    padding: $space-2 $space-3;
+    font-size: $font-size-sm;
+    color: $color-text-primary;
+    cursor: pointer;
+    transition: background-color $duration-fast ease;
+
+    &.ng-option-marked {
+      background-color: rgba(79, 70, 229, 0.05);
+    }
+
+    &.ng-option-selected {
+      background-color: rgba(79, 70, 229, 0.08);
+      font-weight: $font-weight-medium;
+    }
+  }
+}
+
+// ─── Timescale control (pill-style) ──────────────────────────────────────────
+.timescale-control .ng-select {
+  .ng-select-container {
+    border: none !important;
+    background: transparent !important;
+    min-height: unset;
+    height: 26px;
+    padding: 0 $space-1 0 $space-2;
+    box-shadow: none !important;
+  }
+
+  .ng-value-container {
+    padding: 0;
+  }
+
+  .ng-value .ng-value-label {
+    color: $color-status-open;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-sm;
+  }
+
+  .ng-arrow-wrapper {
+    width: 16px;
+    padding-right: $space-2;
+
+    .ng-arrow {
+      border-color: $color-status-open transparent transparent;
+      border-width: 4px 4px 0;
+    }
+  }
+
+  &.ng-select-opened .ng-arrow-wrapper .ng-arrow {
+    border-color: transparent transparent $color-status-open;
+    border-width: 0 4px 4px;
+  }
+
+  .ng-dropdown-panel .ng-option.ng-option-selected .ng-option-label {
+    color: $color-status-open;
+  }
+}
+
+// ─── Panel status select – colored badge for selected value ──────────────────
+.status-opt {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px $space-3;
+  border-radius: 999px;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+
+  &--open         { background: $color-status-open-bg;        color: $color-status-open;        }
+  &--in-progress  { background: $color-status-in-progress-bg; color: $color-status-in-progress; }
+  &--complete     { background: $color-status-complete-bg;    color: $color-status-complete;    }
+  &--blocked      { background: $color-status-blocked-bg;     color: $color-status-blocked;     }
+}
+
+.wo-panel__select {
+  .ng-select-container {
+    min-height: 36px;
+    align-items: center;
+  }
+
+  .ng-value-container {
+    padding: 0 $space-1;
   }
 }

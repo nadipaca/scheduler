@@ -3,7 +3,7 @@
 .schedule-page {
   display: flex;
   flex-direction: column;
-  height: 640px; // close to the mock
+  min-height: 560px;
 }
 
 .schedule-main {
@@ -12,24 +12,37 @@
   column-gap: $space-2;
   flex: 1;
   min-height: 0;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 180px 1fr;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 120px 1fr;
+  }
 }
 
 /* Left column (work centers) */
 .schedule-main__left {
   display: flex;
   flex-direction: column;
-  background-color: $color-surface-soft;
+  background-color: $color-surface;
   border-radius: 8px;
   border: 1px solid $color-border-subtle;
   overflow: hidden;
 }
 
 .schedule-main__left-header {
-  padding: $space-3 $space-4;
+  height: 48px; // matches the taller timeline header cells
+  display: flex;
+  align-items: flex-end;
+  padding: 0 $space-4 $space-2;
   border-bottom: 1px solid $color-border-subtle;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   color: $color-text-secondary;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .schedule-main__left-list {
@@ -38,16 +51,24 @@
 }
 
 .schedule-main__left-item {
-  padding: $space-3 $space-4;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 $space-4;
   border-bottom: 1px solid $color-border-subtle;
   font-size: $font-size-sm;
+  color: $color-text-primary;
+  transition: background-color $duration-fast ease;
+
+  &:hover {
+    background-color: $color-timeline-row-hover;
+  }
 }
 
 /* Right column (timeline grid) */
 .schedule-main__right {
   display: flex;
   flex-direction: column;
-  background-color: $color-surface-soft;
   border-radius: 8px;
   border: 1px solid $color-border-subtle;
   overflow: hidden;
@@ -56,10 +77,5 @@
 .schedule-main__right-scroll {
   flex: 1;
   overflow-x: auto;
-  overflow-y: auto;
-}
-
-/* Optional: row hover tweak from page level */
-.schedule-main__right .work-center-row__lane:hover {
-  background-color: $color-timeline-row-hover;
+  overflow-y: hidden;
 }

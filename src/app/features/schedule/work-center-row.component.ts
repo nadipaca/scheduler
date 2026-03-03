@@ -40,6 +40,9 @@ export class WorkCenterRowComponent {
   @ViewChild('lane', { static: true })
   private laneRef!: ElementRef<HTMLDivElement>;
 
+  hintVisible = false;
+  hintX = 0;
+
   onRowClick(event: MouseEvent): void {
     // Bars call stopPropagation, so this only runs for empty-lane clicks
     const rect = this.laneRef.nativeElement.getBoundingClientRect();
@@ -50,6 +53,20 @@ export class WorkCenterRowComponent {
       workCenter: this.workCenter,
       suggestedDate,
     });
+  }
+
+  onLaneMouseMove(event: MouseEvent): void {
+    if ((event.target as HTMLElement).closest('app-work-order-bar')) {
+      this.hintVisible = false;
+      return;
+    }
+    const rect = this.laneRef.nativeElement.getBoundingClientRect();
+    this.hintX = event.clientX - rect.left;
+    this.hintVisible = true;
+  }
+
+  onLaneMouseLeave(): void {
+    this.hintVisible = false;
   }
 
   onBarEdit(workOrder: WorkOrderDocument): void {

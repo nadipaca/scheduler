@@ -11,4 +11,32 @@
   height: 100%;
   border-bottom: 1px solid $color-timeline-grid-line;
   cursor: pointer;
+  transition: background-color $duration-fast ease;
+
+  &:hover {
+    background-color: $color-timeline-row-hover;
+  }
+}
+
+/* "Click to add dates" cursor-following tooltip */
+.work-center-row__add-hint {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  background: rgba(17, 24, 39, 0.82);
+  color: #ffffff;
+  padding: 4px $space-3;
+  border-radius: 999px;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+  z-index: $z-tooltip;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  animation: hintFadeIn 0.12s ease both;
+}
+
+@keyframes hintFadeIn {
+  from { opacity: 0; transform: translate(-50%, -40%); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
 }

@@ -2,107 +2,134 @@
   class="wo-panel-backdrop"
   *ngIf="open"
   (click)="onBackdropClick()"
+  aria-hidden="true"
 >
   <aside
     class="wo-panel"
     (click)="$event.stopPropagation()"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="panel-title"
+    aria-describedby="panel-subtitle"
   >
     <header class="wo-panel__header">
-      <div class="wo-panel__title">
-        Work Order Details
-      </div>
-      <div class="wo-panel__subtitle">
-        Specify the dates, name and status for this order
+      <div class="wo-panel__header-row">
+        <div class="wo-panel__header-text">
+          <div class="wo-panel__title" id="panel-title">Work Order Details</div>
+          <div class="wo-panel__subtitle" id="panel-subtitle">
+            Specify the dates, name and status for this order
+          </div>
+        </div>
+        <div class="wo-panel__header-actions">
+          <button
+            type="button"
+            class="wo-panel__btn wo-panel__btn--cancel"
+            (click)="onCancel()"
+            aria-label="Cancel and close panel"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            form="wo-panel-form"
+            class="wo-panel__btn wo-panel__btn--primary"
+            [disabled]="saving"
+          >
+            {{ mode === 'create' ? 'Create' : 'Save' }}
+          </button>
+        </div>
       </div>
     </header>
 
     <form
+      id="wo-panel-form"
       class="wo-panel__form"
       [formGroup]="form"
       (ngSubmit)="onSubmit()"
+      novalidate
     >
       <div class="wo-panel__section">
-        <label class="wo-panel__label">
-          Work Order Name
-          <input
-            type="text"
-            class="wo-panel__input"
-            formControlName="name"
-          />
-        </label>
+        <label class="wo-panel__label" for="wo-name">Work Order Name</label>
+        <input
+          id="wo-name"
+          type="text"
+          class="wo-panel__input"
+          formControlName="name"
+          placeholder="Enter work order name"
+          aria-required="true"
+        />
         <div
           class="wo-panel__error"
-          *ngIf="
-            form.get('name')?.touched &&
-            form.get('name')?.hasError('required')
-          "
+          *ngIf="form.get('name')?.touched && form.get('name')?.hasError('required')"
+          role="alert"
         >
           Name is required.
         </div>
       </div>
 
       <div class="wo-panel__section">
-        <label class="wo-panel__label">
-          Status
-          <ng-select
-            class="wo-panel__select"
-            formControlName="status"
-            [items]="statusOptions"
-            bindLabel="label"
-            bindValue="value"
-            [clearable]="false"
-            [searchable]="false"
-          >
-          </ng-select>
-        </label>
+        <label class="wo-panel__label" for="wo-status">Status</label>
+        <ng-select
+          inputId="wo-status"
+          class="wo-panel__select"
+          formControlName="status"
+          [items]="statusOptions"
+          bindLabel="label"
+          bindValue="value"
+          [clearable]="false"
+          [searchable]="false"
+          aria-label="Work order status"
+        >
+          <ng-template ng-label-tmp let-item="item">
+            <span [class]="'status-opt status-opt--' + item.value">{{ item.label }}</span>
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            <span [class]="'status-opt status-opt--' + item.value">{{ item.label }}</span>
+          </ng-template>
+        </ng-select>
         <div
           class="wo-panel__error"
-          *ngIf="
-            form.get('status')?.touched &&
-            form.get('status')?.hasError('required')
-          "
+          *ngIf="form.get('status')?.touched && form.get('status')?.hasError('required')"
+          role="alert"
         >
           Status is required.
         </div>
       </div>
 
-      <div class="wo-panel__row">
-        <div class="wo-panel__section">
-          <label class="wo-panel__label">
-            Start date
-            <div class="wo-panel__datepicker-wrapper">
-              <input
-                class="wo-panel__input"
-                ngbDatepicker
-                #dpStart="ngbDatepicker"
-                formControlName="startDate"
-                readonly
-                (click)="dpStart.open()"
-              />
-            </div>
-          </label>
-        </div>
+      <div class="wo-panel__section">
+        <label class="wo-panel__label" for="wo-end-date">End date</label>
+        <input
+          id="wo-end-date"
+          class="wo-panel__input"
+          ngbDatepicker
+          #dpEnd="ngbDatepicker"
+          formControlName="endDate"
+          readonly
+          (click)="dpEnd.open()"
+          aria-label="End date"
+          aria-required="true"
+        />
+      </div>
 
-        <div class="wo-panel__section">
-          <label class="wo-panel__label">
-            End date
-            <div class="wo-panel__datepicker-wrapper">
-              <input
-                class="wo-panel__input"
-                ngbDatepicker
-                #dpEnd="ngbDatepicker"
-                formControlName="endDate"
-                readonly
-                (click)="dpEnd.open()"
-              />
-            </div>
-          </label>
-        </div>
+      <div class="wo-panel__section">
+        <label class="wo-panel__label" for="wo-start-date">Start date</label>
+        <input
+          id="wo-start-date"
+          class="wo-panel__input"
+          ngbDatepicker
+          #dpStart="ngbDatepicker"
+          formControlName="startDate"
+          readonly
+          (click)="dpStart.open()"
+          aria-label="Start date"
+          aria-required="true"
+        />
       </div>
 
       <div
         class="wo-panel__error"
         *ngIf="dateRangeInvalid"
+        role="alert"
       >
         End date must be after start date.
       </div>
@@ -110,26 +137,9 @@
       <div
         class="wo-panel__error"
         *ngIf="overlapError"
+        role="alert"
       >
         {{ overlapError }}
-      </div>
-
-      <div class="wo-panel__footer">
-        <button
-          type="button"
-          class="wo-panel__btn wo-panel__btn--ghost"
-          (click)="onCancel()"
-        >
-          Cancel
-        </button>
-
-        <button
-          type="submit"
-          class="wo-panel__btn wo-panel__btn--primary"
-          [disabled]="saving"
-        >
-          {{ mode === 'create' ? 'Create' : 'Save' }}
-        </button>
       </div>
     </form>
   </aside>

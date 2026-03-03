@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   TimelineZoom,
@@ -10,8 +10,9 @@ import {
   TimelineRange,
   TimelineHeaderCell,
   generateHeaderCells,
+  getToday,
 } from '../../shared/utils/date-range.util';
-import { differenceInCalendarDays } from 'date-fns';
+import { differenceInCalendarDays, isSameMonth, isSameWeek, isSameDay } from 'date-fns';
 
 @Component({
   standalone: true,
@@ -34,6 +35,23 @@ export class TimelineHeaderComponent {
 
   get headerCells(): TimelineHeaderCell[] {
     return generateHeaderCells(this.zoom, this.visibleRange);
+  }
+
+  get currentPeriodLabel(): string {
+    switch (this.zoom) {
+      case 'day':   return 'Today';
+      case 'week':  return 'Current week';
+      case 'month': return 'Current month';
+    }
+  }
+
+  isCurrentPeriod(cell: TimelineHeaderCell): boolean {
+    const today = getToday();
+    switch (this.zoom) {
+      case 'day':   return isSameDay(cell.start, today);
+      case 'week':  return isSameWeek(cell.start, today, { weekStartsOn: 1 });
+      case 'month': return isSameMonth(cell.start, today);
+    }
   }
 
   onZoomSelect(zoom: TimelineZoom): void {

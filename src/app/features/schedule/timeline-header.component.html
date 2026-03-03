@@ -1,11 +1,19 @@
-<header class="timeline-header">
-  <div class="timeline-header__top">
-    <div class="timeline-header__title">Work Orders</div>
+<header class="timeline-header" role="banner">
+  <h1 class="timeline-header__title">Work Orders</h1>
 
-    <div class="timeline-header__controls">
-      <span class="timeline-header__label">Timescale:</span>
+ 
+
+  <!-- Time header row (aligns with scrollable grid) -->
+  <div class="timeline-header__time-row" role="row" aria-label="Timeline columns">
+     <div class="timeline-header__controls-row">
+    <div
+      class="timescale-control"
+      role="group"
+      aria-label="Timeline zoom level"
+    >
+      <span class="timescale-control__label" id="timescale-label">Timescale</span>
       <ng-select
-        class="timeline-header__timescale-select"
+        class="timescale-control__select"
         [items]="zoomOptions"
         bindLabel="label"
         bindValue="value"
@@ -13,23 +21,29 @@
         [searchable]="false"
         [ngModel]="zoom"
         (ngModelChange)="onZoomSelect($event)"
+        aria-labelledby="timescale-label"
+        appendTo="body"
       >
       </ng-select>
     </div>
   </div>
-
-  <!-- Time header row (right side corresponds to scrollable grid) -->
-  <div class="timeline-header__time-row">
-    <div class="timeline-header__time-spacer">
-      Work Center
-    </div>
-    <div class="timeline-header__time-track">
+    <div class="timeline-header__time-track" role="presentation">
       <div
         *ngFor="let cell of headerCells"
         class="timeline-header__time-cell"
+        [class.timeline-header__time-cell--current]="isCurrentPeriod(cell)"
         [style.width.px]="getCellWidthPx(cell)"
+        role="columnheader"
+        [attr.aria-current]="isCurrentPeriod(cell) ? 'date' : null"
       >
-        {{ cell.label }}
+        <span
+          *ngIf="isCurrentPeriod(cell)"
+          class="timeline-header__current-badge"
+          aria-hidden="true"
+        >
+          {{ currentPeriodLabel }}
+        </span>
+        <span class="timeline-header__time-cell-label">{{ cell.label }}</span>
       </div>
     </div>
   </div>

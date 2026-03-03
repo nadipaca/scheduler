@@ -17,7 +17,7 @@ export class StatusBadgeComponent {
       case 'open':
         return 'Open';
       case 'in-progress':
-        return 'In Progress';
+        return 'In progress';
       case 'complete':
         return 'Complete';
       case 'blocked':

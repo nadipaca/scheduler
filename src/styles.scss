@@ -37,19 +37,33 @@ app-root {
   box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
 }
 
-/* ng-select baseline */
-.ng-select {
-  font-family: inherit;
-  font-size: $font-size-sm;
-
-  .ng-select-container {
-    min-height: 32px;
-    border-radius: 6px;
-    border: 1px solid $color-border-subtle;
+/* Panel slide-in / backdrop animations */
+@keyframes panelSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
   }
-
-  &.ng-select-opened .ng-select-container {
-    border-color: $color-status-open;
-    box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.12);
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.4);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
 }
