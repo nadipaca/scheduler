@@ -6,6 +6,8 @@
     [zoom]="zoom"
     [visibleRange]="visibleRange"
     (zoomChange)="onZoomChange($event)"
+    (todayClick)="centerOnToday()"
+    (resetClick)="onResetToSample()"
   ></app-timeline-header>
 
   <div class="schedule-main">
@@ -31,6 +33,7 @@
       <div
         #timelineScroll
         class="schedule-main__right-scroll"
+        (scroll)="onTimelineScroll($event)"
       >
         <app-timeline-grid
           [zoom]="zoom"

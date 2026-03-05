@@ -50,7 +50,7 @@ export class WorkCenterRowComponent {
     const rect = this.laneRef.nativeElement.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const suggestedDate = xToDate(x, this.visibleRange, this.zoom);
-
+console.log(event, rect, x, suggestedDate);
     this.createRequested.emit({
       workCenter: this.workCenter,
       suggestedDate,

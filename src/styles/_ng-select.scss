@@ -206,3 +206,30 @@
     border-radius: 5px;
   }
 }
+
+/* ngb dropdown panel */
+.dropdown-menu {
+  min-width: 140px;
+  padding: $space-2 0;
+  border: 1px solid $color-border-subtle;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+  font-size: $font-size-sm;
+  z-index: 10;
+}
+
+.dropdown-item {
+  padding: $space-2 $space-4;
+  color: #111827;
+  cursor: pointer;
+  transition: background-color $duration-fast ease;
+
+  &:hover {
+    background-color: rgba(79, 70, 229, 0.05);
+    color: #111827;
+  }
+}
+
+.dropdown-item:last-child {
+  color: rgba(62, 64, 219, 1);
+}

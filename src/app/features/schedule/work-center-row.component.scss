@@ -71,3 +71,8 @@
   from { opacity: 0; transform: translate(-50%, -6px); }
   to   { opacity: 1; transform: translate(-50%, 0); }
 }
+
+/* Hide add-hint while hovering any bar in this row */
+:host:has(app-work-order-bar:hover) .work-center-row__add-hint {
+  display: none;
+}

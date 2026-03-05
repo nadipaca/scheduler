@@ -146,6 +146,11 @@ export class WorkScheduleService {
     this.persistToStorage(next);
   }
 
+  resetToSample(): void {
+    this.workOrdersSubject.next(SAMPLE_WORK_ORDERS);
+    this.persistToStorage(SAMPLE_WORK_ORDERS);
+  }
+
   // -------- Internal helpers --------
 
   private seedFromStorageOrSample(): void {

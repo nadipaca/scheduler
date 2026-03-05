@@ -28,8 +28,7 @@ import {
   generateHeaderCells,
   dateToX,
   getToday,
-} from '../../shared/utils/date-range.util';
-import { WorkCenterRowComponent } from './work-center-row.component';
+} from '../../shared/utils/date-range.util';import { WorkCenterRowComponent } from './work-center-row.component';
 
 interface WorkCenterRowView {
   workCenter: WorkCenterDocument;
@@ -184,5 +183,13 @@ export class TimelineGridComponent implements OnChanges {
 
   onRowSelectRequested(workOrder: WorkOrderDocument): void {
     this.selectRequested.emit(workOrder);
+  }
+
+  trackByCell(_: number, cell: TimelineHeaderCell): string {
+    return cell.start.toISOString();
+  }
+
+  trackByRow(_: number, row: WorkCenterRowView): string {
+    return row.workCenter.docId;
   }
 }

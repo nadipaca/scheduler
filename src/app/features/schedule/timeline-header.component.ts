@@ -19,6 +19,8 @@ export class TimelineHeaderComponent {
   @Input({ required: true }) visibleRange!: TimelineRange;
 
   @Output() zoomChange = new EventEmitter<TimelineZoom>();
+  @Output() todayClick = new EventEmitter<void>();
+  @Output() resetClick = new EventEmitter<void>();
 
   zoomOptions: { label: string; value: TimelineZoom }[] = [
     { label: 'Hour', value: 'hour' },

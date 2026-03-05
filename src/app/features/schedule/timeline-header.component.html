@@ -25,5 +25,23 @@
         </ng-template>
       </ng-select>
     </div>
+
+    <button
+      type="button"
+      class="header-btn header-btn--today"
+      (click)="todayClick.emit()"
+      title="Scroll to today"
+    >
+      Today
+    </button>
+
+    <button
+      type="button"
+      class="header-btn header-btn--reset"
+      (click)="resetClick.emit()"
+      title="Reset to sample data"
+    >
+      Reset data
+    </button>
   </div>
 </header>
