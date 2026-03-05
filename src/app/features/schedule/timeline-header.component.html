@@ -7,7 +7,6 @@
       role="group"
       aria-label="Timeline zoom level"
     >
-      <span class="timescale-control__label" id="timescale-label">Timescale</span>
       <ng-select
         class="timescale-control__select"
         [items]="zoomOptions"
@@ -17,10 +16,13 @@
         [searchable]="false"
         [ngModel]="zoom"
         (ngModelChange)="onZoomSelect($event)"
-        aria-labelledby="timescale-label"
         appendTo="body"
         panelClass="timescale-panel"
       >
+        <ng-template ng-label-tmp let-item="item">
+          <span class="timescale-label-badge">Timescale</span>
+          <span class="timescale-value-text">{{ item.label }}</span>
+        </ng-template>
       </ng-select>
     </div>
   </div>

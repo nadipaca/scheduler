@@ -1,9 +1,13 @@
 import {
   addDays,
+  addHours,
   differenceInCalendarDays,
+  differenceInHours,
   format,
   startOfDay,
+  startOfHour,
   startOfWeek,
+  endOfHour,
   endOfWeek,
   startOfMonth,
   endOfMonth,
@@ -50,6 +54,8 @@ export function generateHeaderCells(
   range: TimelineRange,
 ): TimelineHeaderCell[] {
   switch (zoom) {
+    case 'hour':
+      return generateHourCells(range);
     case 'day':
       return generateDayCells(range);
     case 'week':
@@ -57,6 +63,25 @@ export function generateHeaderCells(
     case 'month':
       return generateMonthCells(range);
   }
+}
+
+function generateHourCells(range: TimelineRange): TimelineHeaderCell[] {
+  const cells: TimelineHeaderCell[] = [];
+  let cursor = startOfHour(range.start);
+
+  while (!isBefore(range.end, cursor)) {
+    const hourEnd = endOfHour(cursor);
+    const cellStart = isBefore(cursor, range.start) ? range.start : cursor;
+    const cellEnd = isAfter(hourEnd, range.end) ? range.end : hourEnd;
+    cells.push({
+      label: format(cursor, 'ha'),
+      start: cellStart,
+      end: cellEnd,
+    });
+    cursor = addHours(cursor, 1);
+  }
+
+  return cells;
 }
 
 function generateDayCells(range: TimelineRange): TimelineHeaderCell[] {
@@ -130,6 +155,10 @@ export function dateToX(
   zoom: TimelineZoom,
 ): number {
   const cfg = TIMELINE_ZOOM_CONFIG[zoom];
+  if (zoom === 'hour') {
+    const hoursFromStart = differenceInHours(date, range.start);
+    return hoursFromStart * cfg.pixelsPerDay;
+  }
   if (zoom === 'day') {
     const daysFromStart = differenceInCalendarDays(date, range.start);
     return daysFromStart * cfg.pixelsPerDay;
@@ -165,6 +194,18 @@ export function intervalToBarLayout(
   const cfg = TIMELINE_ZOOM_CONFIG[zoom];
   const periodWidth = cfg.pixelsPerDay;
 
+  if (zoom === 'hour') {
+    const startHours = differenceInHours(start, range.start);
+    const endHoursExclusive = differenceInHours(addHours(end, 1), range.start);
+
+    const x = startHours * periodWidth;
+    const width = Math.max(
+      (endHoursExclusive - startHours) * periodWidth,
+      periodWidth * 0.5,
+    );
+
+    return { x, width };
+  }
   if (zoom === 'day') {
     const startDays = differenceInCalendarDays(start, range.start);
     const endDaysExclusive = differenceInCalendarDays(addDays(end, 1), range.start);
@@ -195,6 +236,10 @@ export function xToDate(
   zoom: TimelineZoom,
 ): Date {
   const cfg = TIMELINE_ZOOM_CONFIG[zoom];
+  if (zoom === 'hour') {
+    const hoursFromStart = xPx / cfg.pixelsPerDay;
+    return addHours(range.start, Math.floor(hoursFromStart));
+  }
   if (zoom === 'day') {
     const daysFromStart = xPx / cfg.pixelsPerDay;
     return addDays(range.start, Math.floor(daysFromStart));

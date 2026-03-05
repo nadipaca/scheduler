@@ -1,5 +1,10 @@
 @use '../../../styles/tokens' as *;
 
+:host {
+  display: block;
+  height: 100%;
+}
+
 .timeline-grid {
   position: relative;
   display: flex;
@@ -12,7 +17,7 @@
 
 .timeline-grid__header {
   display: flex;
-  height: 56px;
+  height: 24px;
   background-color: $color-surface;
   border-bottom: 1px solid $color-border-subtle;
   position: relative;
@@ -31,11 +36,6 @@
   font-size: $font-size-sm;
   color: #6b7280;
   text-align: center;
-
-  &--current .timeline-grid__header-cell-label {
-    color: $color-text-primary;
-    font-weight: $font-weight-medium;
-  }
 }
 
 .timeline-grid__header-cell-label {
@@ -45,7 +45,7 @@
 
 .timeline-grid__current-badge-overlay {
   position: absolute;
-  top: 56px;
+  top: 20px;
   left: calc(var(--current-x, 0px) + (var(--current-width, 0px) / 2));
   transform: translateX(-50%);
   display: inline-flex;

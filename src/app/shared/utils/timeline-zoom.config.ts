@@ -1,4 +1,4 @@
-﻿export type TimelineZoom = 'day' | 'week' | 'month';
+﻿export type TimelineZoom = 'hour' | 'day' | 'week' | 'month';
 
 export interface TimelineZoomConfig {
   id: TimelineZoom;
@@ -11,6 +11,13 @@ export interface TimelineZoomConfig {
 }
 
 export const TIMELINE_ZOOM_CONFIG: Record<TimelineZoom, TimelineZoomConfig> = {
+  hour: {
+    id: 'hour',
+    // For hour view, we treat this as pixels per hour.
+    pixelsPerDay: 114,
+    visibleDaysBefore: 1,
+    visibleDaysAfter: 1,
+  },
   day: {
     id: 'day',
     pixelsPerDay: 114,     // 86px column + 28px gap

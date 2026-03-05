@@ -21,6 +21,7 @@ export class TimelineHeaderComponent {
   @Output() zoomChange = new EventEmitter<TimelineZoom>();
 
   zoomOptions: { label: string; value: TimelineZoom }[] = [
+    { label: 'Hour', value: 'hour' },
     { label: 'Day', value: 'day' },
     { label: 'Week', value: 'week' },
     { label: 'Month', value: 'month' },

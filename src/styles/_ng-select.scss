@@ -31,7 +31,6 @@
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
   overflow: hidden;
-  margin-top: 4px;
   font-family: 'Circular-Std', system-ui, sans-serif;
 
   .ng-dropdown-panel-items {
@@ -64,11 +63,11 @@
     border: none !important;
     background: transparent !important;
     min-height: unset;
-    height: 34px;
-    padding: 0 8px;
+    height: 28px;
+    padding: 0 8px 0 8px;
     box-shadow: none !important;
     display: flex;
-    align-items: center;
+    align-items: center; 
   }
 
   .ng-value-container {
@@ -87,8 +86,8 @@
   .ng-arrow-wrapper {
     display: flex;
     align-items: center;
-    width: 16px;
-    padding-left: 4px;
+    width: 23px;
+    padding-left: 6px;
 
     .ng-arrow {
       border-style: solid;
@@ -125,6 +124,7 @@
 // ─── Timescale portal panel (panelClass="timescale-panel") ───────────────────
 // Larger options to match the reference design
 .timescale-panel.ng-dropdown-panel {
+  width: 200px;
   min-width: 200px;
   border-radius: 5px;
   border: 1px solid rgba(216, 220, 235, 1);
@@ -136,26 +136,35 @@
   // Items wrapper must fill the panel so options can stretch edge-to-edge
   .ng-dropdown-panel-items {
     width: 100%;
-    padding: 17px 38px 12px 12px;
+    padding: 12px 0;
   }
 
   .ng-option {
-    display: block;           // explicit block so the row spans full width
-    width: 100%;              // stretch to panel edge
-    box-sizing: border-box;   // padding counted inside the width
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
     font-size: 14px;
     font-weight: 400;
-    padding: 0;
-    line-height: 18px;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 12px;
     color: rgba(47, 52, 84, 1);
+    background-color: #ffffff !important;
+    transition: none !important;
 
     &.ng-option-selected {
-      color: rgba(62, 64, 219, 1);
-      background-color: transparent;
+      color: rgba(62, 64, 219, 1) !important;
+      background-color: #ffffff !important;
     }
 
     &.ng-option-marked {
-      background-color: transparent;
+      background-color: #ffffff !important;
+      color: rgba(47, 52, 84, 1);
+    }
+
+    &.ng-option-selected.ng-option-marked {
+      color: rgba(62, 64, 219, 1) !important;
+      background-color: #ffffff !important;
     }
   }
 }

@@ -7,7 +7,14 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { differenceInCalendarDays, isSameDay, isSameWeek, isSameMonth } from 'date-fns';
+import {
+  differenceInCalendarDays,
+  differenceInHours,
+  isSameDay,
+  isSameHour,
+  isSameWeek,
+  isSameMonth,
+} from 'date-fns';
 
 import { WorkCenterDocument } from '../../core/models/work-center.model';
 import { WorkOrderDocument } from '../../core/models/work-order.model';
@@ -75,6 +82,7 @@ export class TimelineGridComponent implements OnChanges {
 
   get currentPeriodLabel(): string {
     switch (this.zoom) {
+      case 'hour':  return 'Current hour';
       case 'day':   return 'Today';
       case 'week':  return 'Current week';
       case 'month': return 'Current month';
@@ -84,6 +92,7 @@ export class TimelineGridComponent implements OnChanges {
   isCurrentPeriod(cell: TimelineHeaderCell): boolean {
     const today = getToday();
     switch (this.zoom) {
+      case 'hour':  return isSameHour(cell.start, today);
       case 'day':   return isSameDay(cell.start, today);
       case 'week':  return isSameWeek(cell.start, today, { weekStartsOn: 1 });
       case 'month': return isSameMonth(cell.start, today);
@@ -93,6 +102,9 @@ export class TimelineGridComponent implements OnChanges {
   getCellWidthPx(cell: TimelineHeaderCell): number {
     const cfg = TIMELINE_ZOOM_CONFIG[this.zoom];
     const spanDays = differenceInCalendarDays(cell.end, cell.start) + 1;
+    if (this.zoom === 'hour') {
+      return cfg.pixelsPerDay;
+    }
     if (this.zoom === 'day') {
       return spanDays * cfg.pixelsPerDay;
     }
@@ -127,7 +139,11 @@ export class TimelineGridComponent implements OnChanges {
       return;
     }
     const cfg = TIMELINE_ZOOM_CONFIG[this.zoom];
-    if (this.zoom === 'day') {
+    if (this.zoom === 'hour') {
+      const totalHours =
+        differenceInHours(this.visibleRange.end, this.visibleRange.start) + 1;
+      this.trackWidthPx = totalHours * cfg.pixelsPerDay;
+    } else if (this.zoom === 'day') {
       const totalDays =
         differenceInCalendarDays(this.visibleRange.end, this.visibleRange.start) +
         1;

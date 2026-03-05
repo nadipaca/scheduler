@@ -23,36 +23,80 @@
   background: #ffffff;
   border: 1px solid rgba(216, 220, 235, 1);
   border-radius: 5px;
-  height: 34px;
-  min-width: 142px;
-  box-shadow:
-    0 4.5px 5px -1px rgba(200, 207, 233, 1),
-    0 0 0 1px rgba(216, 220, 235, 1);
+  height: 28px;
+  box-shadow: 0 4.5px 5px -1px rgba(200, 207, 233, 1);
   // No overflow:hidden — it would clip the ng-select dropdown panel
-  transition: border-color $duration-fast ease, box-shadow $duration-fast ease;
 
-  &:focus-within {
-    border-color: $color-status-open;
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.10);
+  &__select {
+    flex: 1;
+  }
+}
+
+:host ::ng-deep .timescale-control__select {
+  .ng-select-container {
+    height: 28px;
+    min-height: 28px;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    background: transparent;
+    border-radius: 5px;
+    overflow: hidden;
   }
 
-  &__label {
-    padding: 4px 8px 5px;
+  .ng-value-container {
+    padding: 0;
+    flex: 1;
+  }
+
+  // The wrapper rendered by ng-label-tmp must be flex so both spans line up
+  .ng-value {
+    display: flex !important;
+    align-items: stretch;
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .ng-arrow-wrapper {
+    width: 20px;
+    padding-right: 6px;
+    flex-shrink: 0;
+  }
+
+  .ng-arrow {
+    border-top-color: rgba(62, 64, 219, 1);
+  }
+
+  // "Timescale" badge — only this span gets the background
+  .timescale-label-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 8px;
     font-size: 13px;
     font-weight: 400;
     color: rgba(104, 113, 150, 1);
     white-space: nowrap;
-    line-height: 16px;
-    border-right: 1px solid rgba(216, 220, 235, 1);
-    user-select: none;
-    // round the left edge of the pill
-    border-radius: 5px 0 0 5px;
     background: rgba(241, 243, 248, 1);
-    min-width: 59px;
-    text-align: left;
+    border-right: 1px solid rgba(216, 220, 235, 1);
+    border-radius: 5px 0 0 5px;
+    user-select: none;
+    flex-shrink: 0;
   }
 
-  &__select {
-    min-width: 71px;
+  // Selected value text — transparent background
+  .timescale-value-text {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(62, 64, 219, 1);
+    background: transparent;
+  }
+}
+
+:host ::ng-deep .timescale-panel {
+  .ng-option {
+    padding: 8px 12px;
   }
 }

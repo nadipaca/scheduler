@@ -53,8 +53,8 @@
 
 .wo-panel__subtitle {
   margin-top: $space-1;
-  font-size: $font-size-sm;
-  color: #8b94a7;
+  font-size: 16px;
+  color: rgba(104, 113, 150, 1);
   line-height: 1.4;
 }
 
@@ -100,14 +100,14 @@
   border: 1px solid $color-border-subtle;
   font-family: inherit;
   font-size: $font-size-sm;
-  color: $color-text-primary;
+  color: rgba(164, 170, 192, 1);
   background-color: $color-surface;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
   transition: border-color $duration-fast ease, box-shadow $duration-fast ease;
   outline: none;
 
   &:focus {
-    border-color: $color-status-open;
+    border-color: rgba(170, 175, 255, 1);
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
   }
 
@@ -125,7 +125,7 @@
 /* ── Buttons ── */
 .wo-panel__btn {
   height: 32px;
-  border-radius: 999px;
+  border-radius: 7px;
   border: 1px solid transparent;
   font-family: inherit;
   font-size: $font-size-sm;
@@ -139,23 +139,20 @@
 }
 
 .wo-panel__btn--cancel {
-  background-color: $color-surface;
-  color: #6b7280;
-  border-color: $color-border-subtle;
+  background-color: #ffffff;
+  color: #2F3059;
+   box-shadow: 0 2px 6px #C8CFE9, 0 -1px 3px rgba(200, 207, 233, 0.35), -2px 0 4px rgba(200, 207, 233, 0.25), 2px 0 4px rgba(200, 207, 233, 0.25);
 
-  &:hover { color: $color-text-primary; background-color: #f4f6ff; }
+  &:hover { color: $color-text-primary; background-color: #fbf5f5; }
 }
 
 .wo-panel__btn--primary {
-  background: $color-status-open;
-  border-color: $color-status-open;
+  background: rgba(86, 89, 255, 1);
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+  box-shadow: 0 1px 3px #C8CFE9;
   min-width: 72px;
 
   &:not(:disabled):hover {
-    background: $color-status-in-progress;
-    border-color: $color-status-in-progress;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.32);
+    background: rgb(65, 68, 245);
   }
 }
