@@ -5,6 +5,10 @@
   flex-direction: column;
   // Fill the full viewport height minus the app-shell padding
   min-height: calc(100vh - #{$space-6 * 2});
+
+  @media (max-width: 768px) {
+    min-height: calc(100vh - #{$space-3 * 2});
+  }
 }
 
 .schedule-page--panel-open app-timeline-header,
@@ -25,6 +29,11 @@
 
   @media (max-width: 600px) {
     grid-template-columns: 120px 1fr;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 100px 1fr;
+    column-gap: 0;
   }
 }
 
@@ -64,9 +73,17 @@
   font-size: $font-size-sm;
   color: $color-text-primary;
   transition: background-color $duration-fast ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &:hover {
     background-color: $color-timeline-row-hover;
+  }
+
+  @media (max-width: 600px) {
+    font-size: $font-size-xs;
+    padding: 0 $space-2;
   }
 }
 

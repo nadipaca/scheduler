@@ -23,6 +23,10 @@
   z-index: $z-panel;
   animation: panelSlideIn $duration-base $ease-out both;
   overflow-y: auto;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 }
 
 /* ── Header ── */
@@ -30,6 +34,10 @@
   padding: $space-6 $space-6 $space-4;
   border-bottom: 1px solid $color-border-subtle;
   flex-shrink: 0;
+
+  @media (max-width: 600px) {
+    padding: $space-4 $space-4 $space-3;
+  }
 }
 
 .wo-panel__header-row {
@@ -73,6 +81,10 @@
   gap: $space-5;
   padding: $space-6 $space-6 $space-7;
   flex: 1;
+
+  @media (max-width: 600px) {
+    padding: $space-4 $space-4 $space-5;
+  }
 }
 
 .wo-panel__section {
