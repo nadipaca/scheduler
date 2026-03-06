@@ -1,11 +1,12 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { WorkOrderDocument } from '../../core/models/work-order.model';
 import { TimelineZoom } from '../../shared/utils/timeline-zoom.config';
@@ -18,9 +19,10 @@ import { StatusBadgeComponent } from '../../shared/components/status-badge/statu
 @Component({
   standalone: true,
   selector: 'app-work-order-bar',
-  imports: [CommonModule, NgbDropdownModule, StatusBadgeComponent],
+  imports: [CommonModule, NgbDropdownModule, NgbTooltipModule, StatusBadgeComponent],
   templateUrl: './work-order-bar.component.html',
   styleUrls: ['./work-order-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkOrderBarComponent {
   @Input({ required: true }) workOrder!: WorkOrderDocument;

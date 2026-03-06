@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   HostListener,
@@ -88,6 +89,7 @@ function dateRangeValidator(group: AbstractControl): ValidationErrors | null {
   templateUrl: './work-order-panel.component.html',
   styleUrls: ['./work-order-panel.component.scss'],
   providers: [{ provide: NgbDateParserFormatter, useClass: DotDateFormatter }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkOrderPanelComponent implements OnChanges {
   @Input() open = false;

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WorkOrderStatus } from '../../../core/models/work-order.model';
 
@@ -8,6 +8,7 @@ import { WorkOrderStatus } from '../../../core/models/work-order.model';
   imports: [CommonModule],
   templateUrl: './status-badge.component.html',
   styleUrls: ['./status-badge.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusBadgeComponent {
   @Input({ required: true }) status!: WorkOrderStatus;

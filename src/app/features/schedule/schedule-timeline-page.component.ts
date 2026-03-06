@@ -1,5 +1,7 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   ViewChild,
@@ -39,6 +41,7 @@ import { WorkOrderPanelComponent } from './work-order-panel.component';
   ],
   templateUrl: './schedule-timeline-page.component.html',
   styleUrls: ['./schedule-timeline-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScheduleTimelinePageComponent implements AfterViewInit {
   readonly workCenters$ = this.workScheduleService.workCenters$;
@@ -64,13 +67,18 @@ export class ScheduleTimelinePageComponent implements AfterViewInit {
   private workOrdersSnapshot: WorkOrderDocument[] = [];
   private workCentersSnapshot: WorkCenterDocument[] = [];
 
-  constructor(private readonly workScheduleService: WorkScheduleService) {
+  constructor(
+    private readonly workScheduleService: WorkScheduleService,
+    private readonly cdr: ChangeDetectorRef,
+  ) {
     this.workOrders$.subscribe((orders) => {
       this.workOrdersSnapshot = orders;
+      this.cdr.markForCheck();
     });
 
     this.workCenters$.subscribe((centers) => {
       this.workCentersSnapshot = centers;
+      this.cdr.markForCheck();
     });
   }
 

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -41,6 +42,7 @@ interface WorkCenterRowView {
   imports: [CommonModule, WorkCenterRowComponent],
   templateUrl: './timeline-grid.component.html',
   styleUrls: ['./timeline-grid.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineGridComponent implements OnChanges {
   @Input({ required: true }) zoom!: TimelineZoom;

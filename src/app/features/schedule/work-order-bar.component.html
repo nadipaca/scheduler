@@ -3,6 +3,11 @@
   [ngClass]="'work-order-bar--' + workOrder.data.status"
   [class.work-order-bar--active]="active"
   [ngStyle]="layoutStyle"
+  [ngbTooltip]="tooltipContent"
+  #t="ngbTooltip"
+  tooltipClass="wo-bar-tooltip-container"
+  placement="top"
+  container="body"
   (click)="onBarClick($event)"
 >
   <div class="work-order-bar__content">
@@ -20,6 +25,7 @@
     ngbDropdown
     container="body"
     class="work-order-bar__menu"
+    (openChange)="$event && t.close()"
     (click)="$event.stopPropagation()"
   >
     <button
@@ -48,4 +54,22 @@
     </div>
   </div>
 </div>
+
+<ng-template #tooltipContent>
+  <div class="wo-bar-tooltip">
+    <div class="wo-bar-tooltip__name">{{ workOrder.data.name }}</div>
+    <div class="wo-bar-tooltip__row">
+      <span class="wo-bar-tooltip__label">Start</span>
+      <span>{{ workOrder.data.startDate }}</span>
+    </div>
+    <div class="wo-bar-tooltip__row">
+      <span class="wo-bar-tooltip__label">End</span>
+      <span>{{ workOrder.data.endDate }}</span>
+    </div>
+    <div class="wo-bar-tooltip__row">
+      <span class="wo-bar-tooltip__label">Status</span>
+      <span>{{ workOrder.data.status }}</span>
+    </div>
+  </div>
+</ng-template>
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -13,6 +13,7 @@ import { TimelineRange } from '../../shared/utils/date-range.util';
   imports: [CommonModule, NgSelectModule, FormsModule],
   templateUrl: './timeline-header.component.html',
   styleUrls: ['./timeline-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineHeaderComponent {
   @Input({ required: true }) zoom!: TimelineZoom;

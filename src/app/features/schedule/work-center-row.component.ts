@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -23,6 +24,7 @@ import { WorkOrderBarComponent } from './work-order-bar.component';
   imports: [CommonModule, WorkOrderBarComponent],
   templateUrl: './work-center-row.component.html',
   styleUrls: ['./work-center-row.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkCenterRowComponent {
   @Input({ required: true }) workCenter!: WorkCenterDocument;
