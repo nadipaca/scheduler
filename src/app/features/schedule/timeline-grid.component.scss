@@ -11,6 +11,25 @@
   flex-direction: column;
   min-height: 100%;
   background-color: $color-surface-soft;
+
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(193, 198, 214, 0.85) 0 1px,
+    transparent 1px var(--col-width, 0px),
+    transparent var(--col-width, 0px) var(--day-width, 0px)
+  );
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--current-x, -9999px);
+    width: 2px;
+    background: rgba(62, 64, 219, 0.6);
+    z-index: 1;
+    pointer-events: none;
+  }
 }
 
 // ─── Date header row ──────────────────────────────────────────────────────────

@@ -67,7 +67,18 @@
     padding: 0 8px 0 8px;
     box-shadow: none;
     display: flex;
-    align-items: center; 
+    align-items: center;
+  }
+
+  &.ng-select-focused>.ng-select-container {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  &.ng-select-opened>.ng-select-container {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent;
   }
 
   .ng-value-container {
@@ -114,18 +125,43 @@
   font-weight: $font-weight-semibold;
   white-space: nowrap;
 
-  &--open         { background: $color-status-open-bg;        color: $color-status-open;   border: 1px solid $color-status-open-bg;     }
-  &--in-progress  { background: $color-status-in-progress-bg; color: $color-status-in-progress; border: 1px solid $color-status-in-progress-bg; }
-  &--complete     { background: $color-status-complete-bg;    color: $color-status-complete;    border: 1px solid $color-status-complete-bg; }
-  &--blocked      { background: $color-status-blocked-bg;     color: $color-status-blocked;     border: 1px solid $color-status-blocked-bg; }
-  &--plain        { background: transparent; color: #111827; border: 0; font-weight: $font-weight-regular; }
+  &--open {
+    background: $color-status-open-bg;
+    color: $color-status-open;
+    border: 1px solid $color-status-open-bg;
+  }
+
+  &--in-progress {
+    background: $color-status-in-progress-bg;
+    color: $color-status-in-progress;
+    border: 1px solid $color-status-in-progress-bg;
+  }
+
+  &--complete {
+    background: $color-status-complete-bg;
+    color: $color-status-complete;
+    border: 1px solid $color-status-complete-bg;
+  }
+
+  &--blocked {
+    background: $color-status-blocked-bg;
+    color: $color-status-blocked;
+    border: 1px solid $color-status-blocked-bg;
+  }
+
+  &--plain {
+    background: transparent;
+    color: #111827;
+    border: 0;
+    font-weight: $font-weight-regular;
+  }
 }
 
 // ─── Timescale portal panel (panelClass="timescale-panel") ───────────────────
 // Larger options to match the reference design
 .timescale-control__select.ng-dropdown-panel {
   width: 200px;
-  min-width: 200px;
+  min-width: 200px !important;
   border-radius: 5px;
   margin-top: 5px;
   background-color: #ffffff;
@@ -185,7 +221,7 @@
     background-color: $color-surface;
     color: #111827;
     font-weight: 500;
- 
+
 
     &.ng-option-marked,
     &.ng-option-selected {
