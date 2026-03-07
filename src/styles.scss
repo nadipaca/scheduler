@@ -10,8 +10,10 @@
 html,
 body,
 app-root {
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   margin: 0;
+  overflow-x: hidden;
 }
 
 body {

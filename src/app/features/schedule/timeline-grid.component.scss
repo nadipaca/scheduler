@@ -2,6 +2,7 @@
 
 :host {
   display: block;
+  min-width: 100%;
   height: 100%;
 }
 
@@ -11,6 +12,7 @@
   flex-direction: column;
   min-height: 100%;
   background-color: $color-surface-soft;
+  width: 100%;
 
   background-image: repeating-linear-gradient(
     to right,
@@ -27,7 +29,7 @@
     left: var(--current-x, -9999px);
     width: 2px;
     background: rgba(62, 64, 219, 0.6);
-    z-index: 1;
+    z-index: 0;
     pointer-events: none;
   }
 }
