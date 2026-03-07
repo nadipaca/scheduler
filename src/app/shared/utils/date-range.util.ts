@@ -1,6 +1,8 @@
 import {
   addDays,
   addHours,
+  addWeeks,
+  addMonths,
   differenceInCalendarDays,
   differenceInHours,
   format,
@@ -36,9 +38,30 @@ export function getToday(): Date {
 export function getInitialVisibleRange(zoom: TimelineZoom): TimelineRange {
   const today = getToday();
   const cfg = TIMELINE_ZOOM_CONFIG[zoom];
+  const before = cfg.visibleUnitsBefore;
+  const after  = cfg.visibleUnitsAfter;
 
-  const start = addDays(today, -cfg.visibleDaysBefore);
-  const end = addDays(today, cfg.visibleDaysAfter);
+  let start: Date;
+  let end: Date;
+
+  switch (zoom) {
+    case 'hour':
+      start = addHours(today, -before);
+      end   = addHours(today,  after);
+      break;
+    case 'week':
+      start = addWeeks(today, -before);
+      end   = addWeeks(today,  after);
+      break;
+    case 'month':
+      start = addMonths(today, -before);
+      end   = addMonths(today,  after);
+      break;
+    case 'day':
+    default:
+      start = addDays(today, -before);
+      end   = addDays(today,  after);
+  }
 
   return { start, end };
 }

@@ -7,7 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { addDays } from 'date-fns';
 
 import { WorkScheduleService } from '../../core/services/WorkScheduleService';
 import { WorkCenterDocument } from '../../core/models/work-center.model';
@@ -17,7 +16,6 @@ import {
 } from '../../core/models/work-order.model';
 import {
   TimelineZoom,
-  TIMELINE_ZOOM_CONFIG,
 } from '../../shared/utils/timeline-zoom.config';
 import {
   TimelineRange,
@@ -52,7 +50,6 @@ export class ScheduleTimelinePageComponent implements AfterViewInit {
 
   readonly leftColumnWidth = 240;
 
-  private readonly EXTEND_DAYS = 30;
   private readonly SCROLL_EDGE_THRESHOLD_PX = 400;
 
   // slide‑out panel state
@@ -106,25 +103,8 @@ export class ScheduleTimelinePageComponent implements AfterViewInit {
     el.scrollLeft = target;
   }
 
-  onTimelineScroll(event: Event): void {
-    const el = event.target as HTMLDivElement;
-    const { scrollLeft, scrollWidth, clientWidth } = el;
-    const cfg = TIMELINE_ZOOM_CONFIG[this.zoom];
-    const addedPx = this.EXTEND_DAYS * cfg.pixelsPerDay;
-
-    if (scrollLeft < this.SCROLL_EDGE_THRESHOLD_PX) {
-      this.visibleRange = {
-        start: addDays(this.visibleRange.start, -this.EXTEND_DAYS),
-        end: this.visibleRange.end,
-      };
-      // Shift scroll to compensate for the prepended pixels
-      setTimeout(() => { el.scrollLeft = scrollLeft + addedPx; }, 0);
-    } else if (scrollLeft + clientWidth > scrollWidth - this.SCROLL_EDGE_THRESHOLD_PX) {
-      this.visibleRange = {
-        start: this.visibleRange.start,
-        end: addDays(this.visibleRange.end, this.EXTEND_DAYS),
-      };
-    }
+  onTimelineScroll(_event: Event): void {
+    // Range is fixed to ±14 natural units per zoom level; no extension on scroll.
   }
 
   // ----- Events from grid / rows / bars -----
