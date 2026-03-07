@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnChanges,
   Output,
@@ -61,7 +62,8 @@ export class TimelineGridComponent implements OnChanges {
   @Output() selectRequested = new EventEmitter<WorkOrderDocument>();
 
   rows: WorkCenterRowView[] = [];
-  trackWidthPx = 0;
+  /** Bound to the host element width so the scroll container measures it correctly. */
+  @HostBinding('style.width.px') trackWidthPx = 0;
   currentPeriodX: number | null = null;
   currentPeriodWidth = 0;
 

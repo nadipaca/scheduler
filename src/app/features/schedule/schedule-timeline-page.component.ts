@@ -50,8 +50,6 @@ export class ScheduleTimelinePageComponent implements AfterViewInit {
 
   readonly leftColumnWidth = 240;
 
-  private readonly SCROLL_EDGE_THRESHOLD_PX = 400;
-
   // slide‑out panel state
   panelOpen = false;
   panelMode: 'create' | 'edit' = 'create';
@@ -101,10 +99,6 @@ export class ScheduleTimelinePageComponent implements AfterViewInit {
     const todayX = dateToX(today, this.visibleRange, this.zoom);
     const target = Math.max(todayX - el.clientWidth / 2, 0);
     el.scrollLeft = target;
-  }
-
-  onTimelineScroll(_event: Event): void {
-    // Range is fixed to ±14 natural units per zoom level; no extension on scroll.
   }
 
   // ----- Events from grid / rows / bars -----
