@@ -12,7 +12,7 @@ import {
 } from '../../../data/sample-work-data';
 import { hasWorkOrderOverlap } from '../../shared/utils/overlap.util';
 
-const WORK_ORDERS_STORAGE_KEY = 'work-schedule-work-orders-v5';
+const WORK_ORDERS_STORAGE_KEY = 'work-schedule-work-orders-v6';
 
 export interface WorkOrderMutationResult {
   success: boolean;

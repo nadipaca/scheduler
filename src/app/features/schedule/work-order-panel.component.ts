@@ -153,14 +153,14 @@ export class WorkOrderPanelComponent implements OnChanges {
         endDate: dateToStruct(end),
       });
     } else if (this.mode === 'edit' && this.workOrder) {
-      const start = new Date(this.workOrder.data.startDate);
-      const end = new Date(this.workOrder.data.endDate);
+      const [sy, sm, sd] = this.workOrder.data.startDate.split(/[-T]/).map(Number);
+      const [ey, em, ed] = this.workOrder.data.endDate.split(/[-T]/).map(Number);
 
       this.form.reset({
         name: this.workOrder.data.name,
         status: this.workOrder.data.status,
-        startDate: dateToStruct(start),
-        endDate: dateToStruct(end),
+        startDate: { year: sy, month: sm, day: sd } as NgbDateStruct,
+        endDate: { year: ey, month: em, day: ed } as NgbDateStruct,
       });
     }
 
@@ -193,8 +193,8 @@ export class WorkOrderPanelComponent implements OnChanges {
       name: value.name.trim(),
       status: value.status,
       workCenterId: this.workCenter.docId,
-      startDate: start.toISOString(),
-      endDate: end.toISOString(),
+      startDate: `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}`,
+      endDate: `${end.getFullYear()}-${pad(end.getMonth() + 1)}-${pad(end.getDate())}`,
     };
 
     const ignoreId =
